@@ -1,0 +1,127 @@
+/*******************************************************************
+ login.html rules
+ *******************************************************************/
+
+body.login {
+    background:#ebf0f5;
+}
+
+.login #loginText {
+    color: #cc0000;
+}
+
+.login .fieldLabel {
+    padding-left: 2px;
+}
+
+.login .fieldLabelPasswd {
+    margin-top: 0px;
+    margin-left: -195px;
+    font-weight: bold;
+    font-size: 120%;
+}
+.login .fieldLabelUser {
+    padding-left: 220px;
+    margin-top: 0px;
+    margin-left: -200px;
+    font-weight: bold;
+    font-size: 120%;
+
+}
+
+form.login {
+    width: 540px;
+    margin: 200px auto 0;
+    display:block;
+    border-style: ;
+    border-width: medium;
+    background-color:#becdd7;
+}
+
+.login legend {
+    padding: 0;
+    margin: 0;
+    margin-left:0px;
+    height:23px;
+    margin-top: 0px;
+    text-align: left;
+}
+
+.login fieldset {
+    border: none;
+    margin-top: -135px;
+    margin-left: 0px;
+    background: url(/assets/img/login-top.png) transparent repeat 0 100%;
+    /* background: url(/skins/macified/images/backgrounds/login-top.png) transparent no-repeat 0 0%;
+     padding: 80px 0px 0px 0px;
+     height:425px;
+     width: 541px;
+    */
+}
+
+.login fieldset p {
+    padding: 0px 0 0 10px;
+    margin-top: 0px;
+}
+
+.login fieldset ol {
+    margin: 0px;
+    padding: 0 0 0 10px;
+    list-style: none;
+}
+
+.login fieldset ol li {
+    margin: .5em 0;
+    float: left;
+    width: 255px;
+}
+
+.login fieldset ol li label {
+    margin-top: 0px;
+    margin-left: 0px;
+    display: block;
+    font-weight: bold;
+
+}
+
+.login fieldset ol li input#username,
+.login fieldset ol li input#password {
+    margin-top: 5px;
+    border: 1px solid rgb(35,55,70);
+    width: 95%;
+    border: 1px solid #768796;
+    color: rgb(35,55,70);
+    background-color: #ebf0f5;
+}
+
+.login .errors ul
+{ 
+    color: rgb(35,55,70);
+    font-weight: bolder;  
+    list-style-type: none;
+    margin-top: 5px;
+    width: 95%;
+
+
+}
+
+.login .login-button {  
+    width: 35%;
+    height: 23px;
+    display: block;
+    text-indent: -999em;
+    outline: none;
+    background: url(/assets/img/submit_button.png) transparent no-repeat 0 0;
+}
+
+.login .top-image {
+    border: none;
+    background: url(/assets/img/login-top.png) transparent no-repeat 0 0%;
+    height: 180px;
+}
+
+.login .bottom-image {
+    border: none;
+    background: url(/assets/img/login-bottom.png) transparent no-repeat 0 0%;
+    height: 137px;
+}
