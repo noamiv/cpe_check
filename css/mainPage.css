@@ -1,0 +1,148 @@
+/* 
+    Document   : mainPage
+    Created on : Oct 12, 2015, 9:05:02 PM
+    Author     : Noam Ivri
+    Description:
+        Purpose of the stylesheet is to shape the main page
+
+*/
+
+ .ol-popup {
+                position: absolute;
+                background-color: white;
+                -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+                filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+                padding: 15px;
+                border-radius: 10px;
+                border: 1px solid #cccccc;
+                bottom: 12px;
+                left: -50px;
+                min-width: 280px;
+            }
+            .ol-popup:after, .ol-popup:before {
+                top: 100%;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+            .ol-popup:after {
+                border-top-color: white;
+                border-width: 10px;
+                left: 48px;
+                margin-left: -10px;
+            }
+            .ol-popup:before {
+                border-top-color: #cccccc;
+                border-width: 11px;
+                left: 48px;
+                margin-left: -11px;
+            }
+            .ol-popup-closer {
+                text-decoration: none;
+                position: absolute;
+                top: 2px;
+                right: 8px;
+            }
+            .ol-popup-closer:after {
+                content: "✖";
+            }
+
+
+
+.cpe_table {
+	margin:0px;padding:0px;
+	width:100%;
+	border:1px solid #000000;
+	
+	-moz-border-radius-bottomleft:12px;
+	-webkit-border-bottom-left-radius:12px;
+	border-bottom-left-radius:12px;
+	
+	-moz-border-radius-bottomright:12px;
+	-webkit-border-bottom-right-radius:12px;
+	border-bottom-right-radius:12px;
+	
+	-moz-border-radius-topright:12px;
+	-webkit-border-top-right-radius:12px;
+	border-top-right-radius:12px;
+	
+	-moz-border-radius-topleft:12px;
+	-webkit-border-top-left-radius:12px;
+	border-top-left-radius:12px;
+}.cpe_table table{
+    border-collapse: collapse;
+        border-spacing: 0;
+	width:100%;
+	height:100%;
+	margin:0px;padding:0px;
+}.cpe_table tr:last-child td:last-child {
+	-moz-border-radius-bottomright:12px;
+	-webkit-border-bottom-right-radius:12px;
+	border-bottom-right-radius:12px;
+}
+.cpe_table table tr:first-child td:first-child {
+	-moz-border-radius-topleft:12px;
+	-webkit-border-top-left-radius:12px;
+	border-top-left-radius:12px;
+}
+.cpe_table table tr:first-child td:last-child {
+	-moz-border-radius-topright:12px;
+	-webkit-border-top-right-radius:12px;
+	border-top-right-radius:12px;
+}.cpe_table tr:last-child td:first-child{
+	-moz-border-radius-bottomleft:12px;
+	-webkit-border-bottom-left-radius:12px;
+	border-bottom-left-radius:12px;
+}.cpe_table tr:hover td{
+	
+}
+.cpe_table tr:nth-child(odd){ background-color:#e5e5e5; }
+.cpe_table tr:nth-child(even)    { background-color:#ffffff; }.cpe_table td{
+	vertical-align:middle;
+	
+	
+	border:1px solid #000000;
+	border-width:0px 1px 1px 0px;
+	text-align:left;
+	padding:14px;
+	font-size:12px;
+	font-family:Arial;
+	font-weight:normal;
+	color:#000000;
+}.cpe_table tr:last-child td{
+	border-width:0px 1px 0px 0px;
+}.cpe_table tr td:last-child{
+	border-width:0px 0px 1px 0px;
+}.cpe_table tr:last-child td:last-child{
+	border-width:0px 0px 0px 0px;
+}
+.cpe_table tr:first-child td{
+		background:-o-linear-gradient(bottom, #7f7f7f 5%, #b2b2b2 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #7f7f7f), color-stop(1, #b2b2b2) );
+	background:-moz-linear-gradient( center top, #7f7f7f 5%, #b2b2b2 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#7f7f7f", endColorstr="#b2b2b2");	background: -o-linear-gradient(top,#7f7f7f,b2b2b2);
+
+	background-color:#7f7f7f;
+	border:0px solid #000000;
+	text-align:center;
+	border-width:0px 0px 1px 1px;
+	font-size:14px;
+	font-family:Arial;
+	font-weight:bold;
+	color:#000000;
+}
+.cpe_table tr:first-child:hover td{
+	background:-o-linear-gradient(bottom, #7f7f7f 5%, #b2b2b2 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #7f7f7f), color-stop(1, #b2b2b2) );
+	background:-moz-linear-gradient( center top, #7f7f7f 5%, #b2b2b2 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#7f7f7f", endColorstr="#b2b2b2");	background: -o-linear-gradient(top,#7f7f7f,b2b2b2);
+
+	background-color:#7f7f7f;
+}
+.cpe_table tr:first-child td:first-child{
+	border-width:0px 0px 1px 0px;
+}
+.cpe_table tr:first-child td:last-child{
+	border-width:0px 0px 1px 1px;
+}
