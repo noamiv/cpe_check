@@ -1,4 +1,6 @@
 <script>            
+      var draw; // global so we can remove it later      
+
     function switchLayerBS()
     {               
         var checkedLayer = $('#layerswitcher input[name=layerBS]:checked').val();
@@ -124,7 +126,7 @@ while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
     layers[1] = vectorLayer;
     //layers[1] = new ol.layer.Vector({  source: vectorNamesSource  });
     
-    //Gerenet tiles using Maperitive on Windows PC: EXE can be foudn under backup\Maperitive\Maperitive.exe
+    //Gerenet tiles using Maperitive on Windows PC: EXE can be found under backup\Maperitive\Maperitive.exe
     var PrivateLayer = new ol.layer.Tile({
         source: new ol.source.OSM({                
             url: 'tiles/{z}/{x}/{y}.png'
@@ -178,8 +180,9 @@ while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
         var myBs = map.forEachFeatureAtPixel(evt.pixel,
         function(feature, layer) {
             return feature;
-        });              
-        if (myBs) {     
+        });
+        // if the deature is a BS:
+        if (myBs.get('name')) {     
             content.innerHTML = '<h3>'+ myBs.get('name')+'</h3><br/><h4>Number of CPEs: ' + myBs.get('cpes_num') + '<h4>' +
                 '<br/> <a id="show_nei" >My Neighborhood </a>'+
                 '<br/> <a href="'+ 'https://'+ myBs.get('ip')+'" target="_blank">Open WEB UI</a>' +
@@ -220,9 +223,32 @@ while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
                 $('#cpes-info').html(theResponse);     
             });                             
                     
-        }
-    });
-    
+        }else {
+        //if the feature is a new SS    
+            content.innerHTML = '<h3>New SS</h3>' +
+                '<a id="remove_ss" >Remove</a> || '+                
+                '<a id="new_ss" >Create</a>';                        
+            overlay.setPosition(coordinate);    
+        
+            //Get out of new SS mode:
+            map.removeInteraction(draw);
+
+            $('#new_ss').on('click',(function(){                     
+                    $('#overlayId').html(                      
+                        '<button type="button" class="close">Close</button>'+
+                            '<iframe id="newSs" src="new_ss.php?long=' + coordinate[1]+ '&alt=' +coordinate[0]+  '" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
+                    );  
+                        openGenOverlay();
+                    }));
+                
+
+            $('#remove_ss').on('click',(function(){                
+                new_ss_source.clear();
+                overlay.setPosition(undefined);
+                closer.blur();
+            }));
+          }
+        });
     // change mouse cursor when over marker
     
     map.on('pointermove', function(e) {
@@ -231,6 +257,46 @@ while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
         map.getTargetElement().style.cursor = hit ? 'pointer' : '';
     });
         
+    //////////////////////////////////////////////////////
+    // drug and drop new SS as a point
+    //////////////////////////////////////////////////////
+      var features = new ol.Collection();
+      var new_ss_source = new ol.source.Vector({features: features});
+      var featureOverlay = new ol.layer.Vector({
+        source: new_ss_source,
+        style: new ol.style.Style({
+          fill: new ol.style.Fill({
+            color: 'rgba(255, 255, 255, 0.2)'
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#ffcc33',
+            width: 2
+          }),
+          image: new ol.style.Circle({
+            radius: 7,
+            fill: new ol.style.Fill({
+              color: '#ffcc33'
+            })
+          })
+        })
+      });
+      featureOverlay.setMap(map);
+    
+     /*allow the new SS point to be moved on th map*/
+      var modify = new ol.interaction.Modify({
+        features: features        
+      });
+      map.addInteraction(modify);  
+      
+      function addInteraction() {
+        draw = new ol.interaction.Draw({
+          features: features,
+          type: /** @type {ol.geom.GeometryType} */ "Point"
+        });
+        map.addInteraction(draw);
+      }
+      
+
 
        
 </script>
