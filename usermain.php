@@ -93,6 +93,7 @@ if (!isset($loggedInUser)) {
                             <li class="dropdown nav_menu_sub" id="nav-sys"> <a class="page-scroll">System Setup</a> 
                                 <ul class="dropdown-menu nav">
                                     <li><a class="page-scroll" id="nav-new-bs"   href="#">Add BS</a></li>
+                                    <li><a class="page-scroll" id="nav-new-ss"   href="#">Add SS</a></li>
                                     <li><a class="page-scroll" id="nav-new-user" href="#">Add User</a></li>
                                     <li><a class="page-scroll" id="nav-all-users" href="#">All Users</a></li>
                                     <li><a class="page-scroll" id="nav-all-bs"   href="#">All BS</a></li>
