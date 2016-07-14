@@ -9,11 +9,12 @@ require_once("models/config.php");
 
 /*
  * Check for login
- */
+ 
 if (!isset($loggedInUser)) {
     header('Location: login.php');
     exit();
 }
+*/
 ?>
 
 

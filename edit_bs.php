@@ -15,7 +15,7 @@ if (!empty($_POST)) {
     $bsname = trim($_POST["bsname"]);
     $bsip = trim($_POST["bsip"]);
     $long = trim($_POST["longit"]);
-    $alt = trim($_POST["alt"]);
+    $lat = trim($_POST["lat"]);
     $antdir = trim($_POST["ant"]);
     $bs_id = trim($_POST["bs_id"]);
 
@@ -25,8 +25,8 @@ if (!empty($_POST)) {
     if (minMaxRange(12, 21, $long)) {
         $errors[] = 'Longitude should be a number with 12-20 digits';
     }
-    if (minMaxRange(12, 21, $alt)) {
-        $errors[] = 'altitude should be a number with 12-20 digits';
+    if (minMaxRange(12, 21, $lat)) {
+        $errors[] = 'latitude should be a number with 12-20 digits';
     } else if (empty($bsname)) {
         $errors[] = 'Base station name cannot be empty';
     }
@@ -35,7 +35,7 @@ if (!empty($_POST)) {
     if (count($errors) == 0) {
         //Update the BS object
         include("db_connect.php");
-        $query = "UPDATE bs SET name='$bsname',ip='$bsip', location_long=$long, location_alt=$alt, ant_direction=$antdir WHERE  objid=$bs_id";
+        $query = "UPDATE bs SET name='$bsname',ip='$bsip', location_long=$long, location_lat=$lat, ant_direction=$antdir WHERE  objid=$bs_id";
         if (!$mysqli->query($query)) {
             mysqli_close($mysqli);
             $errors[] = 'SQL Error, update query failed';
@@ -79,7 +79,7 @@ if (isset($_GET["id"])) {
 
             $bs_name = $row['name'];
             $bs_ip = $row['ip'];
-            $bs_alt = $row['location_alt'];
+            $bs_lat = $row['location_lat'];
             $bs_long = $row['location_long'];
             $ant_direction = $row['ant_direction'];
         }
@@ -121,7 +121,7 @@ if (isset($_GET["id"])) {
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="alt">Location Altitude:</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="alt" id="alt" value='<?php echo $bs_alt ?>'/>
+                                <input type="text" class="form-control" name="lat" id="lat" value='<?php echo $bs_lat ?>'/>
                             </div>
                         </div>
 
@@ -172,7 +172,7 @@ if (isset($_GET["id"])) {
                         required: true,
                         IP4Checker: true
                     },
-                    alt: {
+                    lat: {
                         minlength: 10,
                         required: true
                     },                    

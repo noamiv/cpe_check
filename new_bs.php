@@ -15,7 +15,7 @@ if (!empty($_POST)) {
     $bsname = trim($_POST["bsname"]);
     $bsip = trim($_POST["bsip"]);
     $long = trim($_POST["longit"]);
-    $alt = trim($_POST["alt"]);
+    $lat = trim($_POST["lat"]);
     $antdir = trim($_POST["ant"]);
     $bs_id = trim($_POST["bs_id"]);
 
@@ -29,7 +29,7 @@ if (!empty($_POST)) {
         $errors[] = 'IP Address is mandatory';
     } 
     
-    if (empty($alt))    $alt='NULL';
+    if (empty($lat))    $lat='NULL';
     if (empty($long))   $long='NULL';
     if (empty($antdir)) $antdir='0';
 
@@ -37,7 +37,7 @@ if (!empty($_POST)) {
     if (count($errors) == 0) {
         //Update the BS object
         include("db_connect.php");
-        $query = "INSERT INTO bs (objid, name, ip, location_alt, location_long, ant_direction) VALUES (NULL, '$bsname', '$bsip', $alt, $long,$antdir)";
+        $query = "INSERT INTO bs (objid, name, ip, location_lat, location_long, ant_direction) VALUES (NULL, '$bsname', '$bsip', $lat, $long,$antdir)";
         
         
         
@@ -101,7 +101,7 @@ if (!empty($_POST)) {
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="alt">Location Altitude:</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="alt" id="alt" value='<?php echo $bs_alt ?>'/>
+                                <input type="text" class="form-control" name="lat" id="lat" value='<?php echo $bs_lat ?>'/>
                             </div>
                         </div>
 
@@ -152,7 +152,7 @@ if (!empty($_POST)) {
                         required: true,
                         IP4Checker: true
                     },
-                    alt: {
+                    lat: {
                         minlength: 10,
                         required: true
                     },                    

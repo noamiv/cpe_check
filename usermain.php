@@ -123,7 +123,7 @@ if (!isset($loggedInUser)) {
                     <div id="toolbox">
                         <ul id="layerswitcher">
                             <li><label><input type="checkbox" name="layerBS" value="1" checked> Base Stations</label></li>                            
-                            <li><label><input type="checkbox" name="layerCPE" value="0"> CPEs</label></li>                            
+                            <li><label><input type="checkbox" name="layerCPE" value="1" checked> CPEs</label></li>                            
                         </ul>
                     </div>
                     <div id="popup" class="ol-popup">

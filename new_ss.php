@@ -12,34 +12,32 @@ if (!isset($loggedInUser)) {
 //Forms posted
 if (!empty($_POST)) {
     $errors = array();
-    $bsname = trim($_POST["bsname"]);
-    $bsip = trim($_POST["bsip"]);
+    $ssname = trim($_POST["ssname"]);
+    $ssip = trim($_POST["ssip"]);
     $long = trim($_POST["longit"]);
-    $alt = trim($_POST["alt"]);
+    $lat = trim($_POST["lat"]);
     $antdir = trim($_POST["ant"]);
-    $bs_id = trim($_POST["bs_id"]);
+    $ss_id = trim($_POST["ss_id"]);
 
     //Perform some validation
     //Feel free to edit / change as required
 
-    if (minMaxRange(1, 100, $bsname)) {
-        $errors[] = 'BS name is mandatory. Valid vlaue between 1 to 100 chars';
+    if (minMaxRange(1, 100, $ssname)) {
+        $errors[] = 'SS name is mandatory. Valid vlaue between 1 to 100 chars';
     }
-    if (minMaxRange(5, 15, $bsip)) {
+    if (minMaxRange(5, 15, $ssip)) {
         $errors[] = 'IP Address is mandatory';
     } 
     
-    if (empty($alt))    $alt='NULL';
+    if (empty($lat))    $lat='NULL';
     if (empty($long))   $long='NULL';
     if (empty($antdir)) $antdir='0';
 
     //End data validation
     if (count($errors) == 0) {
-        //Update the BS object
+        //Update the SS object
         include("db_connect.php");
-        $query = "INSERT INTO bs (objid, name, ip, location_alt, location_long, ant_direction) VALUES (NULL, '$bsname', '$bsip', $alt, $long,$antdir)";
-        
-        
+        $query = "INSERT INTO cpe (objid, name, ip, location_lat, location_long, ant_direction) VALUES (NULL, '$ssname', '$ssip', $lat, $long,$antdir)";
         
         if (!$mysqli->query($query)) {
             mysqli_close($mysqli);
@@ -57,15 +55,15 @@ if (!empty($_POST)) {
 if (isset($_GET["long"])) {
     $ss_long = $_GET['long'];
 }
-if (isset($_GET["alt"])) {
-    $ss_alt = $_GET['alt'];
+if (isset($_GET["lat"])) {
+    $ss_lat = $_GET['lat'];
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Edit BS | <?php echo $bs_id; ?> </title>
+        <title>Edit SS | <?php echo $ss_id; ?> </title>
         <script src="js/jquery-2.1.4.min.js"></script>
         <script src="assets/js/jquery.validate.min.js"></script>
         <link rel="stylesheet" href="assets/css/forms.css"/>
@@ -87,27 +85,27 @@ if (isset($_GET["alt"])) {
                 </div>
 
                 <div id="regbox">
-                    <form id="newBS"  class="form-horizontal" role="form" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-                        <input type="hidden" name="bs_id" value='<?php echo $bs_id ?>'/>
+                    <form id="newSS"  class="form-horizontal" role="form" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+                        <input type="hidden" name="ss_id" value='<?php echo $ss_id ?>'/>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="bsname">BS Name:</label>
+                            <label class="control-label col-sm-2" for="ssname">SS Name:</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="bsname" id="bsname" value='<?php echo $bs_name ?>'/>
+                                <input type="text" class="form-control" name="ssname" id="ssname" value='<?php echo $ss_name ?>'/>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="bsip" >IP Address:</label>
+                            <label class="control-label col-sm-2" for="ssip" >IP Address:</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="bsip" id="bsip" value='<?php echo $bs_ip ?>'/>
+                                <input type="text" class="form-control" name="ssip" id="ssip" value='<?php echo $ss_ip ?>'/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="alt">Location Altitude:</label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="alt" id="alt" value='<?php echo $ss_alt ?>'/>
+                                <input type="text" class="form-control" name="lat" id="lat" value='<?php echo $ss_lat ?>'/>
                             </div>
                         </div>
 
@@ -147,18 +145,18 @@ if (isset($_GET["alt"])) {
         
         $(document).ready(function(){
  
-            $('#editBs').validate(
+            $('#editSs').validate(
             {
                 rules: {
-                    bsname: {
+                    ssname: {
                         minlength: 2,
                         required: true
                     },
-                    bsip: {
+                    ssip: {
                         required: true,
                         IP4Checker: true
                     },
-                    alt: {
+                    lat: {
                         minlength: 10,
                         required: true
                     },                    
