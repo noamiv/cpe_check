@@ -34,8 +34,13 @@
                 }
                 /*location.reload(); NOAM- this will reload the page on close. I prefer to do it nicer and just update the BS ballon*/
                 
+                /*
                  var content = document.getElementById('popup-content');
                   content.innerHTML = "NOAM";
+                  */
+                   
+                  var closer = document.getElementById('popup-closer');
+                  closer.click();
                                                
             }
             else if( !classie.has( overlay, 'close' ) ) {
@@ -54,6 +59,7 @@ $(document).ready(function() {
     "use-strict";
     
       
+      
     
 
     $('#nav-new-bs').click(function(e) 
@@ -66,11 +72,16 @@ $(document).ready(function() {
     });            
 
 
+    $('#nav-new-ss').click(function(e) 
+    { 
+        addInteraction();
+    });  
+
     $('#nav-new-user').click(function(e) 
     { 
         $('#overlayId').html(
             '<button type="button" class="close">Close</button>'+
-            '<iframe id="editBs" src="register.php" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
+            '<iframe id="newUser" src="register.php" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
                         
             );  
         openGenOverlay();
