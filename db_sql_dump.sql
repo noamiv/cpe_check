@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jun 29, 2016 at 02:20 PM
+-- Generation Time: Jul 14, 2016 at 04:27 PM
 -- Server version: 5.5.44-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.13
 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `bs` (
   `objid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `ip` varchar(16) NOT NULL COMMENT 'BS IP address',
-  `location_alt` varchar(32) DEFAULT NULL,
+  `location_lat` varchar(32) DEFAULT NULL,
   `location_long` varchar(32) DEFAULT NULL,
   `ant_direction` int(11) NOT NULL,
   UNIQUE KEY `objid` (`objid`),
@@ -41,11 +41,11 @@ CREATE TABLE IF NOT EXISTS `bs` (
 -- Dumping data for table `bs`
 --
 
-INSERT INTO `bs` (`objid`, `name`, `ip`, `location_alt`, `location_long`, `ant_direction`) VALUES
-(1, 'North runway', '192.168.1.5', '-122.397342643414', '37.63778621307065', 171),
-(3, 'South Runway', '168.1.1.2', '-122.356431158794', '37.6139597127346', 270),
-(4, 'Center', '168.1.1.3', '-122.381555232574', '37.6047551619208', 0),
-(6, 'N3', '192.168.1.7', '-122.381555232574', '37.6047551619208', 150);
+INSERT INTO `bs` (`objid`, `name`, `ip`, `location_lat`, `location_long`, `ant_direction`) VALUES
+(1, 'North runway', '192.168.1.5', '37.63778621307065', '-122.397342643414', 171),
+(3, 'South Runway', '168.1.1.2', '37.6139597127346 ', '-122.356431158794', 270),
+(4, 'Center', '168.1.1.3', '37.6047551619208', '-122.381555232574', 0),
+(6, 'N3', '192.168.1.7', '37.6047551619208', '-122.381555232574', 150);
 
 -- --------------------------------------------------------
 
@@ -56,25 +56,31 @@ INSERT INTO `bs` (`objid`, `name`, `ip`, `location_alt`, `location_long`, `ant_d
 CREATE TABLE IF NOT EXISTS `cpe` (
   `objid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `dl_cinr` varchar(32) NOT NULL,
-  `ul_cinr` varchar(32) NOT NULL,
-  `dl_rssi` varchar(32) NOT NULL,
-  `ul_rssi` varchar(32) NOT NULL,
+  `ip` varchar(16) NOT NULL,
+  `location_lat` varchar(32) NOT NULL,
+  `location_long` varchar(32) NOT NULL,
+  `ant_direction` int(11) NOT NULL,
+  `dl_cinr` int(11) NOT NULL DEFAULT '0',
+  `ul_cinr` int(11) NOT NULL DEFAULT '0',
+  `dl_rssi` int(11) NOT NULL DEFAULT '0',
+  `ul_rssi` int(11) NOT NULL DEFAULT '0',
   `uptime` int(11) NOT NULL,
   `cpe2bs` int(11) DEFAULT NULL,
   PRIMARY KEY (`objid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `cpe`
 --
 
-INSERT INTO `cpe` (`objid`, `name`, `dl_cinr`, `ul_cinr`, `dl_rssi`, `ul_rssi`, `uptime`, `cpe2bs`) VALUES
-(1, 'cpe_1', '27', '25', '-55', '-55', 12677, 3),
-(2, 'cpe_2', '26', '23', '-62', '-67', 4230, 4),
-(3, 'cpe_3', '27', '25', '-58', '-59', 345, 3),
-(4, 'cpe_4', '18', '16', '-72', '-78', 120, 6),
-(5, 'cpe_5', '22', '22', '-68', '-72', 1000, 1);
+INSERT INTO `cpe` (`objid`, `name`, `ip`, `location_lat`, `location_long`, `ant_direction`, `dl_cinr`, `ul_cinr`, `dl_rssi`, `ul_rssi`, `uptime`, `cpe2bs`) VALUES
+(1, 'cpe_1', '', '', '', 0, 27, 25, -55, -55, 12677, 3),
+(2, 'cpe_2', '', '', '', 0, 26, 23, -62, -67, 4230, 4),
+(3, 'cpe_3', '', '', '', 0, 27, 25, -58, -59, 345, 3),
+(4, 'cpe_4', '', '', '', 0, 18, 16, -72, -78, 120, 6),
+(5, 'cpe_5', '', '', '', 0, 22, 22, -68, -72, 1000, 1),
+(6, 'Noam temp', '192.178.1.1', '37.62551685835676', '-122.38687992095947', 0, 0, 0, 0, 0, 0, NULL),
+(7, 'New SS', '192.1.1.3', '37.63408177377812', '-122.39469051361083', 6, 0, 0, 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -128,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `meta_users` (
   `sign_up_date` int(11) NOT NULL,
   `last_sign_in` int(11) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `meta_users`
@@ -139,7 +145,8 @@ INSERT INTO `meta_users` (`user_id`, `username`, `username_clean`, `password`, `
 (2, 'talivri', 'talivri', 'c2196642d527e0fdea448ed87ae21fe34ddaadb737daf7fb0e775e052e17b86f8', 'sdfk@k.com', 'cc38fb2c6325297b8205190a5fdcdb83', 1452053618, 0, 1, 1, 1452053618, 0),
 (3, 'noami', 'noami', '8247b3ab601dcedd8b40d8f31f594e6996f81361f1001fb43361c94f6d1ecf15c', 'noam@local.com', 'dccf48f560f4fec74cb6d1824b880dad', 1456798700, 0, 1, 1, 1456798700, 0),
 (4, 'noami1', 'noami1', '8d19819372f9aeabae95b56fd4dfffa03280b0736f92d698056dfca4864fda7b2', 'noam11@local.com', '361d357a6256a8de6b5522ff94f66b65', 1456799064, 0, 1, 1, 1456799064, 0),
-(5, 'ivri1', 'ivri1', 'ae79b08388eb99c2aaf1db0edc8d305a152c0bbd140677b80e08be0fd49c83fdd', 'ivri@local.com', 'a8bba178b66682efd2cc31dd6982a503', 1456801187, 0, 1, 1, 1456801187, 1463775427);
+(5, 'ivri1', 'ivri1', 'ae79b08388eb99c2aaf1db0edc8d305a152c0bbd140677b80e08be0fd49c83fdd', 'ivri@local.com', 'a8bba178b66682efd2cc31dd6982a503', 1456801187, 0, 1, 1, 1456801187, 1468016368),
+(6, 'nivri', 'nivri', '9041bce258be015bb0677d35c8557f0d208ce27af3a539c6c480f6349e0b5acc6', 'n@n.com', '690d9163f5602e5c217b1724e6b61a17', 1468518283, 0, 1, 1, 1468518283, 1468532290);
 
 -- --------------------------------------------------------
 
