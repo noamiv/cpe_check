@@ -41,14 +41,14 @@ if (isSet($_POST['funcName'])) {
                 case '1':
                     $respone[] = "SsFeature_" . $row['event2ss'] . ".setStyle(SsStyleRed)";
                     break;
-                case '2':
-                    $respone[] = "BsFeature_" . $row['event2bs'] . ".setStyle(SsStyleRed)";
+                case '2':                             
+                    $respone[] = "BsFeature_" . $row['event2bs'] . ".setStyle(BsStyle_".$row['event2bs']."_red)";
                     break;
                 case '3':
                     $respone[] = "SsFeature_" . $row['event2ss'] . ".setStyle(SsStyleGreen)";
                     break;
                 case '4':
-                    $respone[] = "BsFeature_" . $row['event2bs'] . ".setStyle(SsStyleGreen)";
+                    $respone[] = "BsFeature_" . $row['event2bs'] . ".setStyle(BsStyle_".$row['event2bs'].")";
                     break;
                 default:
                     error_log("unknow event type: " . $row['event2desc']);

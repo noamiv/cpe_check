@@ -64,6 +64,10 @@ include("db_connect.php");
 $query = "SELECT bs.*, count(cpe.objid) AS cpes FROM bs left outer join cpe on  cpe.cpe2bs=bs.objid GROUP BY bs.objid";
 $bs_result = $mysqli->query($query);
 mysqli_close($mysqli);
+?>
+    var BsTextFillBlack = new ol.style.Fill({color: 'black'});
+    var BsTextFillRed = new ol.style.Fill({color: 'red'});
+<?php
 $allFeaturesBS = array();
 while ($row = mysqli_fetch_array($bs_result, MYSQL_ASSOC)) {
 
@@ -93,15 +97,28 @@ while ($row = mysqli_fetch_array($bs_result, MYSQL_ASSOC)) {
                             anchorYUnits: 'pixels',
                             opacity: 0.75,
                             rotation: <?php echo $ant_direction ?>,
-                            src: 'v3.10.1/examples/data/geolocation_marker_heading.png'                       
+                            src: 'assets/img/bs_blue.png'                       
                         })        ,
                         text: new ol.style.Text({
                             text: <?php echo "'$bs_name'" ?> ,
                             scale: 1.3,
-                            fill: new ol.style.Fill({
-                                color: '#000000'
-                            })
-                        })
+                            fill: BsTextFillBlack
+                        }),                        
+                    });
+                    var BsStyle_<?php echo $id ?>_red = new ol.style.Style({
+                        image: new ol.style.Icon({
+                            anchor: [0.5, 45],
+                            anchorXUnits: 'fraction',
+                            anchorYUnits: 'pixels',
+                            opacity: 0.75,
+                            rotation: <?php echo $ant_direction ?>,
+                            src: 'assets/img/bs_red.png'                       
+                        })        ,
+                        text: new ol.style.Text({
+                            text: <?php echo "'$bs_name'" ?> ,
+                            scale: 1.3,
+                            fill: BsTextFillRed
+                        }),                        
                     });
 
                     BsFeature_<?php echo $id ?>.setStyle(BsStyle_<?php echo $id ?>);
@@ -114,24 +131,24 @@ while ($row = mysqli_fetch_array($bs_result, MYSQL_ASSOC)) {
 //Get all the CPEs
 ?>
 
-var fillRed = new ol.style.Fill({
-   color: 'rgba(255,0,0,0.7)'
- });
- var fillGreen = new ol.style.Fill({
-   color: 'rgba(13,236,35,0.7)'
- });
- var fillBlack = new ol.style.Fill({
-   color: 'rgba(0,0,0,0.7)'
- });
- var stroke = new ol.style.Stroke({
-   color: '#3399CC',
-   width: 1.25
- });
+    var fillRed = new ol.style.Fill({
+        color: 'rgba(255,0,0,0.7)'
+    });
+    var fillGreen = new ol.style.Fill({
+        color: 'rgba(13,236,35,0.7)'
+    });
+    var fillBlack = new ol.style.Fill({
+        color: 'rgba(0,0,0,0.7)'
+    });
+    var stroke = new ol.style.Stroke({
+        color: '#3399CC',
+        width: 1.25
+    });
  
-  var strokeRed = new ol.style.Stroke({
-   color: '#FFFF05',
-   width: 1.5
- });
+    var strokeRed = new ol.style.Stroke({
+        color: '#FFFF05',
+        width: 1.5
+    });
  
     var SsStyleRed = new ol.style.Style({
         image: new ol.style.Circle({
@@ -181,23 +198,25 @@ while ($row = mysqli_fetch_array($ss_result, MYSQL_ASSOC)) {
                         ip: <?php echo "'$ip'" ?>,  
                         type: <?php echo "'ss'" ?>
                     });
-                    <?php
-                    //Set the right color for the CPE: black if no registred to BS
-                    //else:  red is disconnected , green if operatinal
-                    if (empty($row['cpe2bs'])) {
-                    ?>    
-                        SsFeature_<?php echo $id ?>.setStyle(SsStyleBlack);
-                    <?php                     
-                    }else {
-                          if ($row['cpe2status'] == 1) {
-                    ?>     SsFeature_<?php echo $id ?>.setStyle(SsStyleGreen);
-                    <?php }else {
-                                 if ($row['cpe2status'] == 2){
+        <?php
+        //Set the right color for the CPE: black if no registred to BS
+        //else:  red is disconnected , green if operatinal
+        if (empty($row['cpe2bs'])) {
+            ?>    
+                                    SsFeature_<?php echo $id ?>.setStyle(SsStyleBlack);
+            <?php
+        } else {
+            if ($row['cpe2status'] == 1) {
+                ?>     SsFeature_<?php echo $id ?>.setStyle(SsStyleGreen);
+            <?php
+            } else {
+                if ($row['cpe2status'] == 2) {
                     ?>             SsFeature_<?php echo $id ?>.setStyle(SsStyleRed);
-                        <?php   }else{ ?>
-                             SsFeature_<?php echo $id ?>.setStyle(SsStyleBlack);
-                    <?php
-                    }}} ?>
+                <?php } else { ?>
+                                                SsFeature_<?php echo $id ?>.setStyle(SsStyleBlack);
+                    <?php }
+            }
+        } ?>
 
         <?php
         $allFeaturesSS[] = "SsFeature_$id";
@@ -329,7 +348,7 @@ while ($row = mysqli_fetch_array($ss_result, MYSQL_ASSOC)) {
                     '<iframe id="editBs" src="edit_bs.php?id=' + myItem.get('id') +  '" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
             );  
                 
-             openGenOverlay();
+                openGenOverlay();
 
             }));
                         
@@ -361,7 +380,7 @@ while ($row = mysqli_fetch_array($ss_result, MYSQL_ASSOC)) {
                 '<br/> <a id="edit_ss" >Edit</a>';                       
             overlay.setPosition(coordinate);  
             
-                        /*Open the edit BS page */
+            /*Open the edit BS page */
             $('#edit_ss').on('click',(function(){ 
                   
                 $('#overlayId').html(
@@ -369,7 +388,7 @@ while ($row = mysqli_fetch_array($ss_result, MYSQL_ASSOC)) {
                     '<iframe id="editSs" src="edit_ss.php?id=' + myItem.get('id') +  '" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
             );  
                 
-             openGenOverlay();
+                openGenOverlay();
             }));  
         }
     });

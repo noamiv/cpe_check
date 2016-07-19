@@ -1,20 +1,21 @@
 var lastEventObjid =0;   
 var intrevalTimer = 5000; // 5 sec by default
  
+/*This function gets update commands from the server written in JS, ready to be executed*/ 
 function updateObjets(data)
 {
     var dataObj = JSON.parse(data);
- 
-    //keep the last objid which was read, in order not to read these event again
+          
+    //keep the last objid which was read, in order not to read these events again
     if (dataObj[0]){
         lastEventObjid = dataObj[0];
     } 
- 
+
     for (var i = 1, l = Object.keys(dataObj).length; i < l; i++) 
-    {
-       // console.log(dataObj[i]); 
-        eval(dataObj[i]);    
+    {     
+        eval(dataObj[i]);        
     }
+    
 }
 
  
@@ -61,7 +62,7 @@ function updateConfig(data)
 
 var onLoadFunction = function() {
  
-     $.ajax("getEvents.php",
+    $.ajax("getEvents.php",
     {
         type: "POST",
         data:  {
@@ -77,6 +78,6 @@ var onLoadFunction = function() {
         }
     });
    
-   fetchData(); //must actually call the function!
+    fetchData(); //must actually call the function!
 }
 onLoadFunction();       
