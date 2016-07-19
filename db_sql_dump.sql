@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 14, 2016 at 04:27 PM
+-- Generation Time: Jul 19, 2016 at 01:58 PM
 -- Server version: 5.5.44-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.13
 
@@ -66,21 +66,113 @@ CREATE TABLE IF NOT EXISTS `cpe` (
   `ul_rssi` int(11) NOT NULL DEFAULT '0',
   `uptime` int(11) NOT NULL,
   `cpe2bs` int(11) DEFAULT NULL,
+  `cpe2status` int(11) NOT NULL,
   PRIMARY KEY (`objid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `cpe`
 --
 
-INSERT INTO `cpe` (`objid`, `name`, `ip`, `location_lat`, `location_long`, `ant_direction`, `dl_cinr`, `ul_cinr`, `dl_rssi`, `ul_rssi`, `uptime`, `cpe2bs`) VALUES
-(1, 'cpe_1', '', '', '', 0, 27, 25, -55, -55, 12677, 3),
-(2, 'cpe_2', '', '', '', 0, 26, 23, -62, -67, 4230, 4),
-(3, 'cpe_3', '', '', '', 0, 27, 25, -58, -59, 345, 3),
-(4, 'cpe_4', '', '', '', 0, 18, 16, -72, -78, 120, 6),
-(5, 'cpe_5', '', '', '', 0, 22, 22, -68, -72, 1000, 1),
-(6, 'Noam temp', '192.178.1.1', '37.62551685835676', '-122.38687992095947', 0, 0, 0, 0, 0, 0, NULL),
-(7, 'New SS', '192.1.1.3', '37.63408177377812', '-122.39469051361083', 6, 0, 0, 0, 0, 0, NULL);
+INSERT INTO `cpe` (`objid`, `name`, `ip`, `location_lat`, `location_long`, `ant_direction`, `dl_cinr`, `ul_cinr`, `dl_rssi`, `ul_rssi`, `uptime`, `cpe2bs`, `cpe2status`) VALUES
+(1, 'cpe_1', '', '', '', 0, 27, 25, -55, -55, 12677, 3, 0),
+(2, 'cpe_2', '', '', '', 0, 26, 23, -62, -67, 4230, 4, 0),
+(3, 'cpe_3', '', '', '', 0, 27, 25, -58, -59, 345, 3, 0),
+(4, 'cpe_4', '', '', '', 0, 18, 16, -72, -78, 120, 6, 0),
+(5, 'cpe_5', '', '', '', 0, 22, 22, -68, -72, 1000, 1, 0),
+(6, 'Noam temp', '192.178.1.1', '37.62551685835676', '-122.38687992095947', 0, 0, 0, 0, 0, 0, 1, 1),
+(7, 'New SS', '192.1.1.3', '37.63408177377812', '-122.39469051361083', 6, 0, 0, 0, 0, 0, 1, 2),
+(8, 'another', '192.1.4.6', '37.62334148457268', '-122.39348888397217', 50, 0, 0, 0, 0, 0, NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `device_status`
+--
+
+CREATE TABLE IF NOT EXISTS `device_status` (
+  `objid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL,
+  `desc` varchar(1024) NOT NULL,
+  PRIMARY KEY (`objid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `device_status`
+--
+
+INSERT INTO `device_status` (`objid`, `name`, `desc`) VALUES
+(1, 'operatinal', 'device is connected'),
+(2, 'disconnected', 'device is unreachable ');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event_desc`
+--
+
+CREATE TABLE IF NOT EXISTS `event_desc` (
+  `objid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `desc` varchar(1024) NOT NULL,
+  PRIMARY KEY (`objid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `event_desc`
+--
+
+INSERT INTO `event_desc` (`objid`, `desc`) VALUES
+(1, 'SS is inaccessible '),
+(2, 'BS is inaccessible'),
+(3, 'SS accessible again'),
+(4, 'BS accessible again');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `event_notifier`
+--
+
+CREATE TABLE IF NOT EXISTS `event_notifier` (
+  `objid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time` datetime NOT NULL,
+  `event2desc` int(11) NOT NULL,
+  `event2ss` int(11) NOT NULL,
+  `event2bs` int(11) NOT NULL,
+  PRIMARY KEY (`objid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `event_notifier`
+--
+
+INSERT INTO `event_notifier` (`objid`, `time`, `event2desc`, `event2ss`, `event2bs`) VALUES
+(1, '2016-07-18 10:45:11', 1, 6, 0),
+(2, '0000-00-00 00:00:00', 3, 6, 0),
+(3, '2016-07-20 10:45:11', 1, 6, 0),
+(4, '2016-07-20 00:00:00', 3, 6, 0),
+(5, '2016-07-20 10:45:11', 1, 6, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `meta_config`
+--
+
+CREATE TABLE IF NOT EXISTS `meta_config` (
+  `objid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `desc` varchar(1024) NOT NULL,
+  `value` varchar(16) NOT NULL,
+  PRIMARY KEY (`objid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `meta_config`
+--
+
+INSERT INTO `meta_config` (`objid`, `name`, `desc`, `value`) VALUES
+(1, 'map_refresh_interval', 'java script map refresh interval in mili seconds ', '5000');
 
 -- --------------------------------------------------------
 
@@ -146,7 +238,7 @@ INSERT INTO `meta_users` (`user_id`, `username`, `username_clean`, `password`, `
 (3, 'noami', 'noami', '8247b3ab601dcedd8b40d8f31f594e6996f81361f1001fb43361c94f6d1ecf15c', 'noam@local.com', 'dccf48f560f4fec74cb6d1824b880dad', 1456798700, 0, 1, 1, 1456798700, 0),
 (4, 'noami1', 'noami1', '8d19819372f9aeabae95b56fd4dfffa03280b0736f92d698056dfca4864fda7b2', 'noam11@local.com', '361d357a6256a8de6b5522ff94f66b65', 1456799064, 0, 1, 1, 1456799064, 0),
 (5, 'ivri1', 'ivri1', 'ae79b08388eb99c2aaf1db0edc8d305a152c0bbd140677b80e08be0fd49c83fdd', 'ivri@local.com', 'a8bba178b66682efd2cc31dd6982a503', 1456801187, 0, 1, 1, 1456801187, 1468016368),
-(6, 'nivri', 'nivri', '9041bce258be015bb0677d35c8557f0d208ce27af3a539c6c480f6349e0b5acc6', 'n@n.com', '690d9163f5602e5c217b1724e6b61a17', 1468518283, 0, 1, 1, 1468518283, 1468532290);
+(6, 'nivri', 'nivri', '9041bce258be015bb0677d35c8557f0d208ce27af3a539c6c480f6349e0b5acc6', 'n@n.com', '690d9163f5602e5c217b1724e6b61a17', 1468518283, 0, 1, 1, 1468518283, 1468947201);
 
 -- --------------------------------------------------------
 
