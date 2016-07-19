@@ -156,6 +156,7 @@ if (!isset($loggedInUser)) {
         <script src="js/main.js"></script>   
          <!-- Map control holds the JS and PHP for the map -->
         <?php require_once("map_control.php"); ?>
+         <script src="js/map_event_updater.js"></script>
           <!-- END FOOTER -->
         <script src="./js/framewarp.js"></script>  
         <script src="js/plugins.js"></script>

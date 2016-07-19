@@ -114,13 +114,48 @@ while ($row = mysqli_fetch_array($bs_result, MYSQL_ASSOC)) {
 //Get all the CPEs
 ?>
 
-var fillGreen = new ol.style.Fill({
+var fillRed = new ol.style.Fill({
+   color: 'rgba(255,0,0,0.7)'
+ });
+ var fillGreen = new ol.style.Fill({
    color: 'rgba(13,236,35,0.7)'
+ });
+ var fillBlack = new ol.style.Fill({
+   color: 'rgba(0,0,0,0.7)'
  });
  var stroke = new ol.style.Stroke({
    color: '#3399CC',
    width: 1.25
  });
+ 
+  var strokeRed = new ol.style.Stroke({
+   color: '#FFFF05',
+   width: 1.5
+ });
+ 
+    var SsStyleRed = new ol.style.Style({
+        image: new ol.style.Circle({
+            fill: fillRed,
+            stroke: strokeRed,
+            radius: 5
+        })          
+    });
+
+    var SsStyleGreen = new ol.style.Style({
+        image: new ol.style.Circle({
+            fill: fillGreen,
+            stroke: stroke,
+            radius: 5
+        })          
+    });
+    
+    var SsStyleBlack = new ol.style.Style({
+        image: new ol.style.Circle({
+            fill: fillBlack,
+            stroke: stroke,
+            radius: 5
+        })          
+    });
 
 
 <?php
@@ -146,16 +181,23 @@ while ($row = mysqli_fetch_array($ss_result, MYSQL_ASSOC)) {
                         ip: <?php echo "'$ip'" ?>,  
                         type: <?php echo "'ss'" ?>
                     });
-
-                     var SsStyle_<?php echo $id ?> = new ol.style.Style({
-                       image: new ol.style.Circle({
-                               fill: fillGreen,
-                               stroke: stroke,
-                               radius: 5
-                        }),            
-                    });
-
-                    SsFeature_<?php echo $id ?>.setStyle(SsStyle_<?php echo $id ?>);
+                    <?php
+                    //Set the right color for the CPE: black if no registred to BS
+                    //else:  red is disconnected , green if operatinal
+                    if (empty($row['cpe2bs'])) {
+                    ?>    
+                        SsFeature_<?php echo $id ?>.setStyle(SsStyleBlack);
+                    <?php                     
+                    }else {
+                          if ($row['cpe2status'] == 1) {
+                    ?>     SsFeature_<?php echo $id ?>.setStyle(SsStyleGreen);
+                    <?php }else {
+                                 if ($row['cpe2status'] == 2){
+                    ?>             SsFeature_<?php echo $id ?>.setStyle(SsStyleRed);
+                        <?php   }else{ ?>
+                             SsFeature_<?php echo $id ?>.setStyle(SsStyleBlack);
+                    <?php
+                    }}} ?>
 
         <?php
         $allFeaturesSS[] = "SsFeature_$id";
@@ -377,8 +419,5 @@ while ($row = mysqli_fetch_array($ss_result, MYSQL_ASSOC)) {
         });
         map.addInteraction(draw);
     }
-      
-
-
-       
+          
 </script>
