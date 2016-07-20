@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 19, 2016 at 01:58 PM
+-- Generation Time: Jul 20, 2016 at 03:24 PM
 -- Server version: 5.5.44-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.13
 
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `event_notifier` (
   `event2ss` int(11) NOT NULL,
   `event2bs` int(11) NOT NULL,
   PRIMARY KEY (`objid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
 
 --
 -- Dumping data for table `event_notifier`
@@ -151,7 +151,36 @@ INSERT INTO `event_notifier` (`objid`, `time`, `event2desc`, `event2ss`, `event2
 (2, '0000-00-00 00:00:00', 3, 6, 0),
 (3, '2016-07-20 10:45:11', 1, 6, 0),
 (4, '2016-07-20 00:00:00', 3, 6, 0),
-(5, '2016-07-20 10:45:11', 1, 6, 0);
+(5, '2016-07-20 10:45:11', 1, 6, 0),
+(7, '2016-07-20 00:00:00', 2, 0, 1),
+(8, '2016-07-20 00:00:00', 2, 0, 1),
+(9, '2016-07-27 00:00:00', 2, 0, 1),
+(10, '2016-07-27 00:00:00', 2, 0, 1),
+(11, '2016-07-27 00:00:00', 2, 0, 1),
+(12, '2016-07-27 00:00:00', 2, 0, 1),
+(13, '2016-07-27 00:00:00', 2, 0, 1),
+(14, '2016-07-27 00:00:00', 2, 0, 1),
+(15, '2016-07-27 00:00:00', 2, 0, 1),
+(16, '2016-07-27 00:00:00', 2, 0, 1),
+(17, '2016-07-27 00:00:00', 2, 0, 1),
+(18, '2016-07-27 00:00:00', 2, 0, 1),
+(19, '2016-07-27 00:00:00', 2, 0, 1),
+(20, '2016-07-27 00:00:00', 2, 0, 1),
+(21, '2016-07-20 10:45:11', 1, 6, 0),
+(22, '2016-07-20 10:45:11', 1, 8, 0),
+(23, '2016-07-20 10:45:11', 1, 8, 0),
+(24, '2016-07-27 00:00:00', 2, 0, 1),
+(25, '2016-07-27 00:00:00', 2, 0, 1),
+(26, '2016-07-27 00:00:00', 2, 0, 1),
+(27, '2016-07-27 00:00:00', 2, 0, 1),
+(28, '2016-07-27 00:00:00', 2, 0, 1),
+(29, '2016-07-27 00:00:00', 2, 0, 1),
+(30, '2016-07-27 00:00:00', 2, 0, 1),
+(31, '2016-07-27 00:00:00', 2, 0, 1),
+(32, '2016-07-27 00:00:00', 2, 0, 1),
+(33, '2016-07-27 00:00:00', 2, 0, 1),
+(34, '2016-07-27 00:00:00', 4, 0, 1),
+(35, '2016-07-27 00:00:00', 3, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -161,18 +190,23 @@ INSERT INTO `event_notifier` (`objid`, `time`, `event2desc`, `event2ss`, `event2
 
 CREATE TABLE IF NOT EXISTS `meta_config` (
   `objid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `desc` varchar(1024) NOT NULL,
-  `value` varchar(16) NOT NULL,
-  PRIMARY KEY (`objid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  `p_order` int(11) NOT NULL,
+  `p_name` varchar(255) NOT NULL,
+  `p_desc` varchar(1024) NOT NULL,
+  `p_value` varchar(16) NOT NULL,
+  PRIMARY KEY (`objid`),
+  UNIQUE KEY `objid_2` (`objid`),
+  KEY `objid` (`objid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `meta_config`
 --
 
-INSERT INTO `meta_config` (`objid`, `name`, `desc`, `value`) VALUES
-(1, 'map_refresh_interval', 'java script map refresh interval in mili seconds ', '5000');
+INSERT INTO `meta_config` (`objid`, `p_order`, `p_name`, `p_desc`, `p_value`) VALUES
+(1, 1, 'map_refresh_interval', 'java script map refresh interval in mili seconds ', '5000'),
+(2, 2, 'SNMPv2 Read Community', 'name of the read community ', 'public55'),
+(3, 2, 'SNMPv2 Write Community', 'name of the write community ', 'public4');
 
 -- --------------------------------------------------------
 
@@ -184,14 +218,15 @@ CREATE TABLE IF NOT EXISTS `meta_groups` (
   `group_id` int(11) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(225) NOT NULL,
   PRIMARY KEY (`group_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `meta_groups`
 --
 
 INSERT INTO `meta_groups` (`group_id`, `group_name`) VALUES
-(1, 'Standard User');
+(1, 'Standard User'),
+(2, 'Admin User');
 
 -- --------------------------------------------------------
 
@@ -226,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `meta_users` (
   `sign_up_date` int(11) NOT NULL,
   `last_sign_in` int(11) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `meta_users`
@@ -238,7 +273,8 @@ INSERT INTO `meta_users` (`user_id`, `username`, `username_clean`, `password`, `
 (3, 'noami', 'noami', '8247b3ab601dcedd8b40d8f31f594e6996f81361f1001fb43361c94f6d1ecf15c', 'noam@local.com', 'dccf48f560f4fec74cb6d1824b880dad', 1456798700, 0, 1, 1, 1456798700, 0),
 (4, 'noami1', 'noami1', '8d19819372f9aeabae95b56fd4dfffa03280b0736f92d698056dfca4864fda7b2', 'noam11@local.com', '361d357a6256a8de6b5522ff94f66b65', 1456799064, 0, 1, 1, 1456799064, 0),
 (5, 'ivri1', 'ivri1', 'ae79b08388eb99c2aaf1db0edc8d305a152c0bbd140677b80e08be0fd49c83fdd', 'ivri@local.com', 'a8bba178b66682efd2cc31dd6982a503', 1456801187, 0, 1, 1, 1456801187, 1468016368),
-(6, 'nivri', 'nivri', '9041bce258be015bb0677d35c8557f0d208ce27af3a539c6c480f6349e0b5acc6', 'n@n.com', '690d9163f5602e5c217b1724e6b61a17', 1468518283, 0, 1, 1, 1468518283, 1468947201);
+(6, 'nivri', 'nivri', '9041bce258be015bb0677d35c8557f0d208ce27af3a539c6c480f6349e0b5acc6', 'n@n.com', '690d9163f5602e5c217b1724e6b61a17', 1468518283, 0, 1, 1, 1468518283, 1469050675),
+(7, 'admin', 'admin', 'c4a212924d1b131e1b1bc44cd48e077ffa807027708b045eb0cdcf7bbb8f86582', 'admin@admin.com', 'a754a3a5481c69d6669f233f3ab6080b', 1469048455, 0, 1, 2, 1469048455, 1469051029);
 
 -- --------------------------------------------------------
 
