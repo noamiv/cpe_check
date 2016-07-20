@@ -63,6 +63,7 @@ if (!empty($_POST)) {
                     $loggedInUser->hash_pw = $userdetails["password"];
                     $loggedInUser->display_username = $userdetails["username"];
                     $loggedInUser->clean_username = $userdetails["username_clean"];
+                    $loggedInUser->group = $userdetails["group_id"];
                     $loggedInUser->remember_me = $remember_choice;
                     $loggedInUser->remember_me_sessid = generateHash(uniqid(rand(), true));
 
@@ -152,11 +153,6 @@ if (!empty($_POST)) {
             <div class="bottom-image"></div>
         </form>
         <div class="clear"></div>
-        <p style="margin-top:30px; text-align:center;">
-            <a href="register.php">Create New User</a> 
-        </p>
-
-
     </body>
 </html>
 

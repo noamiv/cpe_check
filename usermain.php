@@ -6,7 +6,7 @@
 <!--<![endif]-->
 
 
- <!-- Make sure the user is login. If not redirect to login page -->
+<!-- Make sure the user is login. If not redirect to login page -->
 <?php
 require_once("models/config.php");
 if (!isset($loggedInUser)) {
@@ -30,7 +30,7 @@ if (!isset($loggedInUser)) {
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-         <!-- NOAM TODO: too many CSS.. needs to be reduced -->
+        <!-- NOAM TODO: too many CSS.. needs to be reduced -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/animate.css">        
@@ -94,8 +94,10 @@ if (!isset($loggedInUser)) {
                                 <ul class="dropdown-menu nav">
                                     <li><a class="page-scroll" id="nav-new-bs"   href="#">Add BS</a></li>
                                     <li><a class="page-scroll" id="nav-new-ss"   href="#">Add SS</a></li>
-                                    <li><a class="page-scroll" id="nav-new-user" href="#">Add User</a></li>
-                                    <li><a class="page-scroll" id="nav-all-users" href="#">All Users</a></li>
+                                    <?php if ($loggedInUser->group == $ADMIN_GROUP_ID) { ?>
+                                        <li><a class="page-scroll" id="nav-new-user" href="#">Add User</a></li>
+                                        <li><a class="page-scroll" id="nav-all-users" href="#">All Users</a></li>
+                                    <?php } ?>
                                     <li><a class="page-scroll" id="nav-all-bs"   href="#">All BS</a></li>
                                     <li><a class="page-scroll" id="nav-config"   href="#">Configuration</a></li>
                                 </ul>
@@ -122,8 +124,8 @@ if (!isset($loggedInUser)) {
                     <div id="map" class="map"" ></div>
                     <div id="toolbox">
                         <ul id="layerswitcher">
-                            <li><label><input type="checkbox" name="layerBS" value="1" checked> Base Stations</label></li>                            
-                            <li><label><input type="checkbox" name="layerCPE" value="1" checked> CPEs</label></li>                            
+                            <li><label><input id="layerBSCheck" type="checkbox" name="layerBS"  > Base Stations</label></li>                            
+                            <li><label><input id="layerSSCheck" type="checkbox" name="layerCPE" > CPEs</label></li>                            
                         </ul>
                     </div>
                     <div id="popup" class="ol-popup">
@@ -154,14 +156,29 @@ if (!isset($loggedInUser)) {
         </footer>
         <!-- END FOOTER -->
         <script src="js/main.js"></script>   
-         <!-- Map control holds the JS and PHP for the map -->
+        <!-- Map control holds the JS and PHP for the map -->
         <?php require_once("map_control.php"); ?>
-         <script src="js/map_event_updater.js"></script>
-          <!-- END FOOTER -->
+        <script src="js/map_event_updater.js"></script>
+        <!-- END FOOTER -->
         <script src="./js/framewarp.js"></script>  
         <script src="js/plugins.js"></script>
 
         <script src='js/classie.js'></script>
         <script src='js/modernizr.custom.js'></script>       
+        <script>
+            //instead of cookies I'm saving the checkbox value in the memory. This way the BS and CPEs will always appear on a new window
+            //on page load set the checkbox to stored value or default to true
+            $('#layerBSCheck').prop('checked' , ( typeof sessionStorage.layerBSCheck !== 'undefined' ) ? (sessionStorage.layerBSCheck=='true') : true ); 
+            $('#layerSSCheck').prop('checked' , ( typeof sessionStorage.layerSSCheck !== 'undefined' ) ? (sessionStorage.layerSSCheck=='true') : true ); 
+            //when checkbox is updated, update stored value
+            $('#layerBSCheck').change( function() {
+                sessionStorage.layerBSCheck = $(this).prop('checked');
+            });
+            $('#layerSSCheck').change( function() {
+                sessionStorage.layerSSCheck = $(this).prop('checked');
+            });  
+            switchLayerBS();
+            switchLayerCPE();
+        </script>
     </body>
 </html>

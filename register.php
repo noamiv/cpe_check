@@ -7,14 +7,17 @@
  */
 require_once("models/config.php");
 
-/*
- * Check for login
+
+/* Check for login */
  
-if (!isset($loggedInUser)) {
+if (!isset($loggedInUser)) {    
     header('Location: login.php');
     exit();
+}elseif ($loggedInUser->group != $ADMIN_GROUP_ID) {    
+    echo "Only user with 'admin' privileges can add new users";
+    exit();
 }
-*/
+
 ?>
 
 
