@@ -1,56 +1,56 @@
 
-    function openGenOverlay() {
-        var triggerBttn = document.getElementById( 'js-trigger-overlay' ),
-        overlay = document.querySelector( 'div.overlay' ),
-        closeBttn = overlay.querySelector( 'button.close' );
-        transEndEventNames = {
-            'WebkitTransition': 'webkitTransitionEnd',
-            'MozTransition': 'transitionend',
-            'OTransition': 'oTransitionEnd',
-            'msTransition': 'MSTransitionEnd',
-            'transition': 'transitionend'
-        },
-        transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
-        support = {
-            transitions : Modernizr.csstransitions
-        };                                 
+function openGenOverlay() {
+    var triggerBttn = document.getElementById( 'js-trigger-overlay' ),
+    overlay = document.querySelector( 'div.overlay' ),
+    closeBttn = overlay.querySelector( 'button.close' );
+    transEndEventNames = {
+        'WebkitTransition': 'webkitTransitionEnd',
+        'MozTransition': 'transitionend',
+        'OTransition': 'oTransitionEnd',
+        'msTransition': 'MSTransitionEnd',
+        'transition': 'transitionend'
+    },
+    transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
+    support = {
+        transitions : Modernizr.csstransitions
+    };                                 
 
-        function toggleOverlay() {
-            if( classie.has( overlay, 'open' ) ) {
-                classie.remove( overlay, 'open' );
-                classie.add( overlay, 'close' );
-                var onEndTransitionFn = function( ev ) {
-                    if( support.transitions ) {
-                        if( ev.propertyName !== 'visibility' ) return;
-                        this.removeEventListener( transEndEventName, onEndTransitionFn );
-                    }
-                    classie.remove( overlay, 'close' );
-                };
+    function toggleOverlay() {
+        if( classie.has( overlay, 'open' ) ) {
+            classie.remove( overlay, 'open' );
+            classie.add( overlay, 'close' );
+            var onEndTransitionFn = function( ev ) {
                 if( support.transitions ) {
-                    overlay.addEventListener( transEndEventName, onEndTransitionFn );
+                    if( ev.propertyName !== 'visibility' ) return;
+                    this.removeEventListener( transEndEventName, onEndTransitionFn );
                 }
-                else {
-                    onEndTransitionFn();
-                }
-                /*location.reload(); NOAM- this will reload the page on close. I prefer to do it nicer and just update the BS ballon*/
+                classie.remove( overlay, 'close' );
+            };
+            if( support.transitions ) {
+                overlay.addEventListener( transEndEventName, onEndTransitionFn );
+            }
+            else {
+                onEndTransitionFn();
+            }
+            /*location.reload(); NOAM- this will reload the page on close. I prefer to do it nicer and just update the BS ballon*/
                 
-                /*
+            /*
                  var content = document.getElementById('popup-content');
                   content.innerHTML = "NOAM";
                   */
                    
-                  var closer = document.getElementById('popup-closer');
-                  closer.click();
+            var closer = document.getElementById('popup-closer');
+            closer.click();
                                                
-            }
-            else if( !classie.has( overlay, 'close' ) ) {
-                classie.add( overlay, 'open' );                
-            }            
         }
+        else if( !classie.has( overlay, 'close' ) ) {
+            classie.add( overlay, 'open' );                
+        }            
+    }
 
-        toggleOverlay() ;
-        closeBttn.addEventListener( 'click', toggleOverlay );
-    } 
+    toggleOverlay() ;
+    closeBttn.addEventListener( 'click', toggleOverlay );
+} 
     
     
     
@@ -59,8 +59,7 @@ $(document).ready(function() {
     "use-strict";
     
       
-      
-    
+ 
 
     $('#nav-new-bs').click(function(e) 
     { 
@@ -86,6 +85,26 @@ $(document).ready(function() {
             );  
         openGenOverlay();
     });
+
+    $('#nav-config').click(function(e) 
+    { 
+        $('#overlayId').html(
+            '<button type="button" class="close">Close</button>'+
+            '<iframe id="systemConfig" src="sysConfig.php" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
+                        
+            );  
+        openGenOverlay();
+    });
+
+    $('#nav-all-bs').click(function(e) 
+    { 
+        $('#overlayId').html(
+            '<button type="button" class="close">Close</button>'+
+            '<iframe id="allBs" src="view_allBS.php" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
+                        
+            );  
+        openGenOverlay();
+    });
                      
         
     $('a[href*=#]:not([href=#])').click(function() {
@@ -101,9 +120,9 @@ $(document).ready(function() {
         }
     });    
     
-     $("#nav-sys").on("click", "a", null, function () {
-         $("#nav-sys").collapse('hide');
-     });
+    $("#nav-sys").on("click", "a", null, function () {
+        $("#nav-sys").collapse('hide');
+    });
 
 });
 
