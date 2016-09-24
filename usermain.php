@@ -74,13 +74,12 @@ if (!isset($loggedInUser)) {
                         </button>
 
                         <!-- LOGO -->
-                        <a class="navbar-brand page-scroll" href="http://w3.siemens.com/mcms/industrial-communication/en/rugged-communication/Documents/webfeature_rx1400/index.html#!/de/" target="_blank">
-                            <img src="img/logo.png" alt="">
-                        </a>
+                        <a class="navbar-brand page-scroll" href="http://w3.siemens.com/smartgrid/global/en/products-systems-solutions/smart-communication/distribution-communication-solutions/pages/wimax.aspx" target="_blank">
+                            <img src="img/logo_new.png" alt="">
+                        </a>                        
                         <!-- END LOGO -->
 
                     </div>
-
                     <!-- TOGGLE NAV -->
                     <div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
                         <ul class="menu nav navbar-nav navbar-right">
@@ -94,15 +93,23 @@ if (!isset($loggedInUser)) {
                                 <ul class="dropdown-menu nav">
                                     <li><a class="page-scroll" id="nav-new-bs"   href="#">Add BS</a></li>
                                     <li><a class="page-scroll" id="nav-new-ss"   href="#">Add SS</a></li>
-                                    <?php if ($loggedInUser->group == $ADMIN_GROUP_ID) { ?>
-                                        <li><a class="page-scroll" id="nav-new-user" href="#">Add User</a></li>
-                                        <li><a class="page-scroll" id="nav-all-users" href="#">All Users</a></li>
+                                  
+                                    <?php  if ($loggedInUser->group == ADMIN_GROUP_ID) { ?>
+                                        <li><a class="page-scroll" id="nav-new-user" href="#">Add User</a></li>                                        
                                     <?php } ?>
                                     <li><a class="page-scroll" id="nav-all-bs"   href="#">All BS</a></li>
                                     <li><a class="page-scroll" id="nav-config"   href="#">Configuration</a></li>
                                 </ul>
                             </li> 
-                            <li><a href="logout.php">Logout</a></li>
+                            <li class="dropdown nav_menu_sub" id="nav-usre"> <a class="page-scroll"><?php echo $loggedInUser->display_username ?></a> 
+                                <ul class="dropdown-menu nav">
+                                    <li><a class="page-scroll" id="nav-edit-user"   href="#">My Account</a></li>                                    
+                                    <?php if ($loggedInUser->group == ADMIN_GROUP_ID) { ?>                                        
+                                        <li><a class="page-scroll" id="nav-all-users" href="#">All Users</a></li>
+                                    <?php } ?>                                    
+                                    <li><a class="page-scroll" id="nav-logout"   href="logout.php">Logout</a></li>                                        
+                                </ul>
+                            </li>                             
                         </ul>
                     </div>
                     <!-- TOGGLE NAV                                        

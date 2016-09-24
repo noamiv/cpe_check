@@ -1,25 +1,22 @@
 <?php
+require_once ('config_mgr.php');
 
 include("db_connect.php");
 
-
 if (isSet($_POST['funcName'])) {
     if ($_POST['funcName'] == 'load') {
-        
+    /*this will happen once on the load*/    
         $rows = array();
         
         $query = "SELECT MAX(objid)AS max FROM event_notifier";
         $result = $mysqli->query($query);
         $row = mysqli_fetch_array($result, MYSQL_ASSOC);
         $rows['maxEventIndex'] = $row['max'];
-        
-        $query = "SELECT name, value  FROM meta_config";
-        $result = $mysqli->query($query);
-        while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
-            $rows[$row['name']] = $row['value'];
-        }
-        
         mysqli_close($mysqli);
+        
+        $map_refresh = CONFIG_MGR::GET(CONFIG_MAP_REFRESH_INTERVAL);
+        $rows['map_refresh_interval'] = $map_refresh;
+                
         echo json_encode($rows);
         return;
     }

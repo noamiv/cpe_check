@@ -12,22 +12,27 @@ if (!isset($loggedInUser)) {
 //Forms posted
 if (!empty($_POST)) {
     $errors = array();
-    $bsname = trim($_POST["bsname"]);
-    $bsip = trim($_POST["bsip"]);
-    $long = trim($_POST["longit"]);
-    $lat = trim($_POST["lat"]);
-    $antdir = trim($_POST["ant"]);
-    $bs_id = trim($_POST["bs_id"]);
+    $bs_name = trim($_POST["bsname"]);
+    $bs_ip = trim($_POST["bsip"]);
+    $bs_long = trim($_POST["longit"]);
+    $bs_lat = trim($_POST["lat"]);
+    $bs_height = trim($_POST["height"]);
+    $ant_direction = trim($_POST["ant-d"]);
+    $ant_gain = trim($_POST["ant-g"]);
+    $ant_type = trim($_POST["ant-t"]);
+    $max_power = trim($_POST["max-tx"]);
 
+    $bs_id = trim($_POST["bs_id"]);
+        
     //Perform some validation
     //Feel free to edit / change as required
 
-    if (minMaxRange(12, 21, $long)) {
+    if (minMaxRange(12, 21, $bs_long)) {
         $errors[] = 'Longitude should be a number with 12-20 digits';
     }
-    if (minMaxRange(12, 21, $lat)) {
+    if (minMaxRange(12, 21, $bs_lat)) {
         $errors[] = 'latitude should be a number with 12-20 digits';
-    } else if (empty($bsname)) {
+    } else if (empty($bs_name)) {
         $errors[] = 'Base station name cannot be empty';
     }
 
@@ -35,7 +40,9 @@ if (!empty($_POST)) {
     if (count($errors) == 0) {
         //Update the BS object
         include("db_connect.php");
-        $query = "UPDATE bs SET name='$bsname',ip='$bsip', location_long=$long, location_lat=$lat, ant_direction=$antdir WHERE  objid=$bs_id";
+        $query = "UPDATE bs SET name='$bs_name',ip='$bs_ip', location_long=$bs_long,location_height=$bs_height, location_lat=$bs_lat," .
+                " ant_direction=$ant_direction,ant_gain=$ant_gain, ant_type=$ant_type,max_tx_power=$max_power " .
+                " WHERE  objid=$bs_id";
         if (!$mysqli->query($query)) {
             mysqli_close($mysqli);
             $errors[] = 'SQL Error, update query failed';
@@ -81,7 +88,11 @@ if (isset($_GET["id"])) {
             $bs_ip = $row['ip'];
             $bs_lat = $row['location_lat'];
             $bs_long = $row['location_long'];
+            $bs_height = $row['location_height'];
             $ant_direction = $row['ant_direction'];
+            $ant_gain = $row['ant_gain'];
+            $ant_type = $row['ant_type'];
+            $max_power = $row["max_tx_power"];
         }
         if (empty($bs_name)) {
             $message = "BS with id '$bs_id' could not be found ";
@@ -133,11 +144,49 @@ if (isset($_GET["id"])) {
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="ant">Antenna Direction:</label>
+                            <label class="control-label col-sm-2" for="long">Location Height:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="height" id="height" value='<?php echo $bs_height ?>'/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="ant-d">Antenna Direction:</label>
                             <div class="col-sm-2 controls">
-                                <input type="text" class="form-control input-xlarge" name="ant" id="ant" value='<?php echo $ant_direction ?>'/>
+                                <input type="text" class="form-control input-xlarge" name="ant-d" id="ant-d" value='<?php echo $ant_direction ?>'/>
                             </div>
                         </div>                        
+
+                        
+                        <?php                             
+                            $selected[0] ='';$selected[1] ='';$selected[2] ='';
+                            $selected[$ant_type] ='selected';
+                        ?>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="ant-t">Antenna Type:</label>
+                            <div class="col-sm-2 controls">
+                                <select class="form-control" name="ant-t" id="ant-t">
+                                    <option value="0" <?php echo $selected[0] ?> >Please Select</option>
+                                    <option value="1" <?php echo $selected[1] ?> >Omni</option>
+                                    <option value="2" <?php echo $selected[2] ?> >Directional</option>                                    
+                                </select>                                
+                            </div>
+                        </div>  
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="ant-g">Antenna Gain:</label>
+                            <div class="col-sm-2 controls">
+                                <input type="text" class="form-control input-xlarge" name="ant-g" id="ant-g" value='<?php echo $ant_gain ?>'/>
+                            </div>
+                        </div>  
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="max-tx">BS Max TX Power:</label>
+                            <div class="col-sm-2 controls">
+                                <input type="text" class="form-control input-xlarge" name="max-tx" id="max-tx" value='<?php echo $max_power ?>'/>
+                            </div>
+                        </div>  
+
 
                         <div class="form-actions"> 
                             <div class="col-sm-offset-2 col-sm-2">

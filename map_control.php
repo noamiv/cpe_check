@@ -243,11 +243,22 @@ while ($row = mysqli_fetch_array($ss_result, MYSQL_ASSOC)) {
     layers[2] = vectorLayerSS;
     //layers[1] = new ol.layer.Vector({  source: vectorNamesSource  });
     
-    //Gerenet tiles using Maperitive on Windows PC: EXE can be found under backup\Maperitive\Maperitive.exe
+    <?php
+        //Check if the map source comes from the web or local tiles
+        require_once ('config_mgr.php');
+        $source = CONFIG_MGR::GET(CONFIG_MAP_SOURCE);
+        if ($source == CONFIG_MAP_SOURCE_LOCAL) {
+            //In this case you need to create tiles using Maperitive on Windows PC: EXE can be found under backup\Maperitive\Maperitive.exe
+            $map_source = "{url: 'tiles/{z}/{x}/{y}.png'}";
+        }else {
+            $map_source = "";    
+        }                        
+    ?>
+    
+    
+    
     var PrivateLayer = new ol.layer.Tile({
-        source: new ol.source.OSM({                
-            url: 'tiles/{z}/{x}/{y}.png'
-        })
+        source: new ol.source.OSM(<?php echo $map_source ?>)
     });
 
 

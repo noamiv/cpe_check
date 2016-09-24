@@ -1,5 +1,6 @@
 <?php
 require_once("models/config.php");
+require_once ('config_mgr.php');
 
 /*
  * Check for login
@@ -22,6 +23,7 @@ if (!empty($_POST)) {
         $sql_str = "";
         foreach ($_POST AS $key => $value) {
             $sql_str .= "UPDATE meta_config SET p_value='" . trim($value) . "' WHERE objid=" . trim($key) . ";";
+            CONFIG_MGR::SET(trim($key), trim($value));
         }
 
         if (!$mysqli->multi_query($sql_str)) {
@@ -66,9 +68,8 @@ if (!empty($_POST)) {
         include("db_connect.php");
 
 
-        $query = "SELECT objid, p_name,p_desc,p_value FROM meta_config ORDER BY p_order";
-        $result = $mysqli->query($query);
-        mysqli_close($mysqli);
+        $query = "SELECT * FROM meta_config ORDER BY p_order";
+        $result = $mysqli->query($query);       
         $p_id = array();
         $p_name = array();
         $p_value = array();
@@ -78,6 +79,7 @@ if (!empty($_POST)) {
             $p_name[] = $row['p_name'];
             $p_value[] = $row['p_value'];
             $p_desc[] = $row['p_desc'];
+            $i_type[] = $row['input_type'];
         }
         if (count($p_name) == 0) {
             $message = "No configuration parameters were found in table meta_config";
@@ -103,9 +105,29 @@ if (!empty($_POST)) {
                         for ($i = 0; $i < $p_count; $i++) {
                             ?>
                             <div class="form-group">
-                                <label class="control-label col-sm-2"><?php echo $p_name[$i] ?>:</label>
+                                <label class="control-label col-sm-2"><?php echo $p_name[$i] ?>:</label>                                
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" name="<?php echo $p_id[$i] ?>" id="<?php echo $p_id[$i] ?>" value='<?php echo $p_value[$i] ?>'/>
+                                    <?php
+                                    /*if type is dropdown */
+                                    if ($i_type[$i] == CONFIG_TYPE_SELECT) {
+
+                                        $query = "SELECT opt,value FROM meta_config_option_value where option2config=$p_id[$i] ORDER BY objid";
+                                        $result = $mysqli->query($query);
+                                        mysqli_close($mysqli);
+                                        echo "<select class='form-control' name='$p_id[$i]' id='$p_id[$i]'>";
+                                        while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
+                                            if ($p_value[$i] == $row['value']) {
+                                                echo "<option value=" . $row['value'] . " selected >" . $row['opt'] . "</option>";
+                                            } else {
+                                                echo "<option value=" . $row['value'] . ">" . $row['opt'] . "</option>";
+                                            }
+                                        }
+                                        echo "</select>";
+                                    } else {
+                                        /*type is simple text box*/
+                                        echo "<input type='text' class='form-control' name='$p_id[$i]' id='$p_id[$i]' value='$p_value[$i]'/>";
+                                    }
+                                    ?>
                                 </div>
                             </div>                                                                    
                         <?php } ?>
@@ -121,55 +143,6 @@ if (!empty($_POST)) {
             </div> 
         </div>  
     </body>
-
-    <script>
-        
-        $.validator.addMethod('IP4Checker', function(value) {
-            var ip = "^(?:(?:25[0-5]2[0-4][0-9][01]?[0-9][0-9]?)\.){3}" +
-                "(?:25[0-5]2[0-4][0-9][01]?[0-9][0-9]?)$";
-            return value.match(ip);
-        }, 'Invalid IP address');
-        
-        $(document).ready(function(){
- 
-            $('#editBs').validate(
-            {
-                rules: {
-                    bsname: {
-                        minlength: 2,
-                        required: true
-                    },
-                    bsip: {
-                        required: true,
-                        IP4Checker: true
-                    },
-                    lat: {
-                        minlength: 10,
-                        required: true
-                    },                    
-                    longit: {
-                        minlength: 10,
-                        required: true
-                    },
-                    ant: {
-                        minlength: 1,
-                        required: true
-                    }
-                },
-                highlight: function(element) {
-                    $(element).closest('.form-group').removeClass('success').addClass('error');
-                },
-                success: function(element) {
-                    element
-                    .text('OK!').addClass('valid')
-                    .closest('.form-group').removeClass('error').addClass('success');
-                }
-            });
-        }); // end document.ready
-    </script>
-
-
-
 </html>
 
 
