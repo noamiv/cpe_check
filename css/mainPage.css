@@ -51,9 +51,9 @@
             }
 
 
-
 .cpe_table {
-	margin:0px;padding:0px;
+	margin:0px;
+        padding:0px;
 	width:100%;
 	border:1px solid #000000;
 	
@@ -72,6 +72,8 @@
 	-moz-border-radius-topleft:12px;
 	-webkit-border-top-left-radius:12px;
 	border-top-left-radius:12px;
+
+        
 }.cpe_table table{
     border-collapse: collapse;
         border-spacing: 0;
@@ -145,4 +147,11 @@
 }
 .cpe_table tr:first-child td:last-child{
 	border-width:0px 0px 1px 1px;
+}
+
+.bs_table {
+	
+        padding:10px;
+        margin-left: 10px;
+        width: 95%;
 }
