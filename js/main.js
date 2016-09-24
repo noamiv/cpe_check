@@ -65,7 +65,7 @@ $(document).ready(function() {
     { 
         $('#overlayId').html(
             '<button type="button" class="close">Close</button>'+
-            '<iframe id="editBs" src="new_bs.php" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
+            '<iframe id="NewBs" src="new_bs.php" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
             );           
         openGenOverlay();
     });            
