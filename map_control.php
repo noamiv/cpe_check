@@ -61,7 +61,9 @@
 include("db_connect.php");
 
 //Get all the Base stations 
-$query = "SELECT bs.*, count(cpe.objid) AS cpes FROM bs left outer join cpe on  cpe.cpe2bs=bs.objid GROUP BY bs.objid";
+$query = "SELECT bs.objid, bs.name,bs.ip,bs.location_lat, bs.location_long, bs.ant_direction,".
+        "count(cpe.objid) AS cpes FROM bs left outer join cpe on  cpe.cpe2bs=bs.objid GROUP BY bs.objid";
+
 $bs_result = $mysqli->query($query);
 mysqli_close($mysqli);
 ?>
@@ -71,6 +73,8 @@ mysqli_close($mysqli);
 $allFeaturesBS = array();
 while ($row = mysqli_fetch_array($bs_result, MYSQL_ASSOC)) {
 
+  //  echo "window.alert(". $row['ant_direction']. ");";
+    
     $id = $row['objid'];
     $bs_name = $row['name'];
     $bs_lat = $row['location_lat'];
@@ -177,7 +181,7 @@ while ($row = mysqli_fetch_array($bs_result, MYSQL_ASSOC)) {
 
 <?php
 include("db_connect.php");
-$query = "SELECT * FROM cpe";
+$query = "SELECT objid, name,location_lat, location_long,ip FROM cpe";
 $ss_result = $mysqli->query($query);
 mysqli_close($mysqli);
 
@@ -185,8 +189,7 @@ while ($row = mysqli_fetch_array($ss_result, MYSQL_ASSOC)) {
     $id = $row['objid'];
     $ss_name = $row['name'];
     $ss_lat = $row['location_lat'];
-    $ss_long = $row['location_long'];
-    $ant_direction = ($row['ant_direction'] / 360) * 6.28;
+    $ss_long = $row['location_long'];    
     $ip = $row['ip'];
 
     if (!(empty($ss_long) || empty($ss_lat))) {
