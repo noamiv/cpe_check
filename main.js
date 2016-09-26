@@ -65,7 +65,7 @@ $(document).ready(function() {
     { 
         $('#overlayId').html(
             '<button type="button" class="close">Close</button>'+
-            '<iframe id="editBs" src="new_bs.php" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
+            '<iframe id="NewBs" src="new_bs.php" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
             );           
         openGenOverlay();
     });            
@@ -95,6 +95,16 @@ $(document).ready(function() {
             );  
         openGenOverlay();
     });
+
+    $('#nav-all-bs').click(function(e) 
+    { 
+        $('#overlayId').html(
+            '<button type="button" class="close">Close</button>'+
+            '<iframe id="allBs" src="view_allBS.php" allowfullscreen="true" sandbox="allow-scripts allow-pointer-lock allow-same-origin allow-popups allow-forms" allowtransparency="true" class="result-iframe"></iframe>'
+                        
+            );  
+        openGenOverlay();
+    });
                      
         
     $('a[href*=#]:not([href=#])').click(function() {
@@ -108,12 +118,7 @@ $(document).ready(function() {
                 return false;
             }
         }
-    });    
-    
-    $("#nav-sys").on("click", "a", null, function () {
-        $("#nav-sys").collapse('hide');
-    });
-
+    });       
 });
 
 
