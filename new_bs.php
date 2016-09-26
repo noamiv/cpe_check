@@ -109,7 +109,7 @@ if (isSet($_POST['funcName'])) {
 
             $snmp_read = CONFIG_MGR::GET(CONFIG_SNMP2_READ_COMM);
 
-            $host = new \OSS_SNMP\SNMP($bs_ip, $snmp_read);
+            $host = new \OSS_SNMP\SNMP($bs_ip, $snmp_read);                        
 
             try {
                 $bs_name = $host->useWinBs()->site_id();
@@ -124,7 +124,7 @@ if (isSet($_POST['funcName'])) {
                 }
             } catch (Exception $e) {
                 // If we get here, it timed out. Now check to see if the peer server is up.
-                $errors[] = "SNMP timed out";
+                $errors[] = "BS with IP address $bs_ip cannot be contacted with SNMPv2. Check BS SNMP managers configuration,";
             }
         }
 
