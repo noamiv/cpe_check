@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 25, 2016 at 10:32 PM
+-- Generation Time: Sep 27, 2016 at 02:38 AM
 -- Server version: 5.5.44-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.19
 
@@ -44,22 +44,22 @@ CREATE TABLE IF NOT EXISTS `bs` (
   `sas_active` int(11) NOT NULL,
   `snmpv2_read` varchar(32) NOT NULL,
   `snmpv2_write` varchar(32) NOT NULL,
-  `bs2status` int(11) NOT NULL,
-  `bs2cbsd_status` int(11) NOT NULL,
+  `bs2status` int(11) NOT NULL DEFAULT '4',
+  `bs2cbsd_status` int(11) NOT NULL DEFAULT '7',
   UNIQUE KEY `objid` (`objid`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `bs`
 --
 
 INSERT INTO `bs` (`objid`, `name`, `ip`, `location_lat`, `location_long`, `ant_direction`, `ant_height`, `ant_gain`, `ant_downtilt_mech`, `ant_downtilt_elec`, `ant_beamwidth`, `ant_model`, `ant_type`, `max_tx_power`, `sas_active`, `snmpv2_read`, `snmpv2_write`, `bs2status`, `bs2cbsd_status`) VALUES
-(1, 'North runway', '192.168.1.5', '37.63778621307065', '-122.397342643414', 171, '80', 12, '', '', '', '', 2, 27, 0, '', '', 0, 0),
-(3, 'South Runway', '168.1.1.2', '37.6139597127346 ', '-122.356431158794', 270, '', 0, '', '', '', '', 0, 0, 0, '', '', 0, 0),
-(4, 'Center', '168.1.1.3', '37.6047551619208', '-122.381555232574', 0, '', 0, '', '', '', '', 0, 0, 0, '', '', 0, 0),
-(6, 'N3', '192.168.1.7', '37.6047551619208', '-122.381555232574', 150, '', 0, '', '', '', '', 0, 0, 0, '', '', 0, 0),
-(7, 'test1', '192.168.16.15', '32', '41.5', 91, '80', 12, '', '', '', '', 0, 27, 1, '', '', 1, 0);
+(1, 'North runway', '192.168.1.5', '37.63778621307065', '-122.397342643414', 171, '80', 12, '', '', '', '', 2, 27, 0, '', '', 1, 6),
+(3, 'South Runway', '168.1.1.2', '37.6139597127346 ', '-122.356431158794', 270, '', 0, '', '', '', '', 0, 0, 0, '', '', 3, 6),
+(4, 'Center', '168.1.1.3', '37.6047551619208', '-122.381555232574', 0, '', 0, '', '', '', '', 0, 0, 0, '', '', 1, 6),
+(6, 'N3', '192.168.1.7', '37.6047551619208', '-122.381555232574', 150, '', 0, '', '', '', '', 0, 0, 0, '', '', 1, 6),
+(7, 'test1', '192.168.16.15', '32', '41.5', 91, '80', 12, '', '', '', '', 0, 27, 1, '', '', 1, 6);
 
 -- --------------------------------------------------------
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `cbsd_status` (
   `name` varchar(32) NOT NULL,
   `desc` varchar(255) NOT NULL,
   PRIMARY KEY (`objid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `cbsd_status`
@@ -84,7 +84,8 @@ INSERT INTO `cbsd_status` (`objid`, `name`, `desc`) VALUES
 (3, 'hb_ok', 'heart bit OK'),
 (4, 'hb_failed', 'SAS did not respond to heart bit'),
 (5, 'relinquish ', 'SAS accepted relinquish request '),
-(6, 'unregistered ', 'CBSD is not in SAS');
+(6, 'unregistered ', 'CBSD is not in SAS'),
+(7, 'NA', 'default value of new CBSD if status is not set');
 
 -- --------------------------------------------------------
 
@@ -112,8 +113,8 @@ CREATE TABLE IF NOT EXISTS `cpe` (
   `uptime` int(11) NOT NULL,
   `sas_active` int(11) NOT NULL DEFAULT '0',
   `cpe2bs` int(11) DEFAULT NULL,
-  `cpe2status` int(11) NOT NULL,
-  `cpe2cbsd_status` int(11) NOT NULL,
+  `cpe2status` int(11) NOT NULL DEFAULT '4',
+  `cpe2cbsd_status` int(11) NOT NULL DEFAULT '7',
   PRIMARY KEY (`objid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
@@ -142,16 +143,17 @@ CREATE TABLE IF NOT EXISTS `device_status` (
   `name` varchar(64) NOT NULL,
   `desc` varchar(1024) NOT NULL,
   PRIMARY KEY (`objid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `device_status`
 --
 
 INSERT INTO `device_status` (`objid`, `name`, `desc`) VALUES
-(1, 'operatinal', 'device is connected'),
-(2, 'disconnected', 'device is unreachable '),
-(3, 'tx_off', 'BS is connected but not transmitting ');
+(1, 'Operatinal', 'device is connected and in status operational'),
+(2, 'Unreachable', 'device is unreachable with SNMP'),
+(3, 'Connected- not transmitting', 'BS only. Answer SNMP , service stopped. '),
+(5, 'NA', 'default value of new device if status is not set');
 
 -- --------------------------------------------------------
 
@@ -163,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `event_desc` (
   `objid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `desc` varchar(1024) NOT NULL,
   PRIMARY KEY (`objid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `event_desc`
@@ -189,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `event_notifier` (
   `event2ss` int(11) NOT NULL,
   `event2bs` int(11) NOT NULL,
   PRIMARY KEY (`objid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=36 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=39 ;
 
 --
 -- Dumping data for table `event_notifier`
@@ -229,7 +231,10 @@ INSERT INTO `event_notifier` (`objid`, `time`, `event2desc`, `event2ss`, `event2
 (32, '2016-07-27 00:00:00', 2, 0, 1),
 (33, '2016-07-27 00:00:00', 2, 0, 1),
 (34, '2016-07-27 00:00:00', 4, 0, 1),
-(35, '2016-07-27 00:00:00', 3, 7, 0);
+(35, '2016-07-27 00:00:00', 3, 7, 0),
+(36, '2016-09-27 00:00:00', 1, 6, 0),
+(37, '2016-09-27 00:00:00', 1, 3, 0),
+(38, '2016-09-27 00:00:00', 3, 6, 0);
 
 -- --------------------------------------------------------
 
@@ -348,7 +353,7 @@ INSERT INTO `meta_users` (`user_id`, `username`, `username_clean`, `password`, `
 (4, 'noami1', 'noami1', '8d19819372f9aeabae95b56fd4dfffa03280b0736f92d698056dfca4864fda7b2', 'noam11@local.com', '361d357a6256a8de6b5522ff94f66b65', 1456799064, 0, 1, 1, 1456799064, 0),
 (5, 'ivri1', 'ivri1', 'ae79b08388eb99c2aaf1db0edc8d305a152c0bbd140677b80e08be0fd49c83fdd', 'ivri@local.com', 'a8bba178b66682efd2cc31dd6982a503', 1456801187, 0, 1, 1, 1456801187, 1468016368),
 (6, 'nivri', 'nivri', '9041bce258be015bb0677d35c8557f0d208ce27af3a539c6c480f6349e0b5acc6', 'n@n.com', '690d9163f5602e5c217b1724e6b61a17', 1468518283, 0, 1, 1, 1468518283, 1469050675),
-(7, 'admin', 'admin', 'c4a212924d1b131e1b1bc44cd48e077ffa807027708b045eb0cdcf7bbb8f86582', 'admin@admin.com', 'a754a3a5481c69d6669f233f3ab6080b', 1469048455, 0, 1, 2, 1469048455, 1474866799);
+(7, 'admin', 'admin', 'c4a212924d1b131e1b1bc44cd48e077ffa807027708b045eb0cdcf7bbb8f86582', 'admin@admin.com', 'a754a3a5481c69d6669f233f3ab6080b', 1469048455, 0, 1, 2, 1469048455, 1474968724);
 
 -- --------------------------------------------------------
 
@@ -395,7 +400,8 @@ CREATE TABLE IF NOT EXISTS `notes` (
 CREATE TABLE IF NOT EXISTS `sas_action` (
   `objid` int(11) NOT NULL AUTO_INCREMENT,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `action2cbsd_info` int(11) NOT NULL,
+  `action2bs` int(11) NOT NULL,
+  `action2cpe` int(11) NOT NULL,
   `action2type` int(11) NOT NULL,
   UNIQUE KEY `objid` (`objid`),
   KEY `objid_2` (`objid`)
