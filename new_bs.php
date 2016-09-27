@@ -20,14 +20,14 @@ if (isSet($_POST['funcName'])) {
         $ant_direction = trim($_POST["antd"]);
         $ant_gain = trim($_POST["antg"]);
         $ant_type = trim($_POST["antt"]);
-        $max_power = trim($_POST["max_tx"]);        
+        $max_power = trim($_POST["max_tx"]);
         $ant_downtilt_m = trim($_POST["dtm"]);
-        $ant_downtilt_e = trim($_POST["dte"]);        
-        $ant_beamw      = trim($_POST["antbw"]);
-        $ant_model      = trim($_POST["model"]);
-        $sas_active     = trim($_POST["sas"]);
-        $snmp_read    = trim($_POST["snmpr"]);
-        $snmp_write    = trim($_POST["snmpw"]);        
+        $ant_downtilt_e = trim($_POST["dte"]);
+        $ant_beamw = trim($_POST["antbw"]);
+        $ant_model = trim($_POST["model"]);
+        $sas_active = trim($_POST["sas"]);
+        $snmp_read = trim($_POST["snmpr"]);
+        $snmp_write = trim($_POST["snmpw"]);
 
         $bs_id = trim($_POST["bs_id"]);
 
@@ -35,18 +35,18 @@ if (isSet($_POST['funcName'])) {
         //Note the validation is done in the client with JS, this is just for extra protection!
         //Feel free to edit / change as required
 
-        if (minMaxRange(1, 100, $bs_name)) {
+        if (minMaxRange(1, 32, $bs_name)) {
             $errors[] = 'BS name is mandatory. Valid vlaue between 1 to 32 chars';
         }
-        if (minMaxRange(5, 15, $bs_ip)) {
+        if (minMaxRange(8, 15, $bs_ip)) {
             $errors[] = 'IP Address is mandatory';
         }
 
-        if (empty($bs_lat)){
+        if (empty($bs_lat)) {
             $bs_lat = 'NULL';
         } else {
-          //  if (! preg_match('/^(?[-]?[0-8]?[0-9]\.\d+|[-]?90\.0+?)/', $bs_lat))
-           //     $errors[] = 'Latitude format is invalid.';    
+            //  if (! preg_match('/^(?[-]?[0-8]?[0-9]\.\d+|[-]?90\.0+?)/', $bs_lat))
+            //     $errors[] = 'Latitude format is invalid.';    
         }
         if (empty($bs_long))
             $bs_long = 'NULL';
@@ -57,12 +57,12 @@ if (isSet($_POST['funcName'])) {
         if (count($errors) == 0) {
             //Update the BS object
             include("db_connect.php");
-            $query = "INSERT INTO bs (`objid`, `name`, `ip`, `location_lat`, `location_long`, `ant_direction`, `ant_height`, ".
-                                   "`ant_gain`, `ant_downtilt_mech`, `ant_downtilt_elec`, `ant_beamwidth`, `ant_model`, `ant_type`, `max_tx_power`,".
-                                   " `sas_active`, `bs2status`, bs2cbsd_status) ".                    
-                    "VALUES (NULL, '$bs_name', '$bs_ip', '$bs_lat', '$bs_long',$ant_direction,'$bs_height',".
-                                    "$ant_gain,'$ant_downtilt_m', '$ant_downtilt_e', '$ant_beamw','$ant_model', $ant_type,$max_power,".
-                                    "$sas_active,3,6)";
+            $query = "INSERT INTO bs (`objid`, `name`, `ip`, `location_lat`, `location_long`, `ant_direction`, `ant_height`, " .
+                    "`ant_gain`, `ant_downtilt_mech`, `ant_downtilt_elec`, `ant_beamwidth`, `ant_model`, `ant_type`, `max_tx_power`," .
+                    " `sas_active`, `bs2status`, bs2cbsd_status) " .
+                    "VALUES (NULL, '$bs_name', '$bs_ip', '$bs_lat', '$bs_long',$ant_direction,'$bs_height'," .
+                    "$ant_gain,'$ant_downtilt_m', '$ant_downtilt_e', '$ant_beamw','$ant_model', $ant_type,$max_power," .
+                    "$sas_active,3,6)";
 
 
 
@@ -90,12 +90,12 @@ if (isSet($_POST['funcName'])) {
         $ant_type = trim($_POST["antt"]);
         $max_power = trim($_POST["max_tx"]);
         $ant_downtilt_m = trim($_POST["dtm"]);
-        $ant_downtilt_e = trim($_POST["dte"]);        
-        $ant_beamw      = trim($_POST["antbw"]);
-        $ant_model      = trim($_POST["model"]);
-        $sas_active     = trim($_POST["sas"]);
-        $snmp_read    = trim($_POST["snmpr"]);
-        $snmp_write    = trim($_POST["snmpw"]);
+        $ant_downtilt_e = trim($_POST["dte"]);
+        $ant_beamw = trim($_POST["antbw"]);
+        $ant_model = trim($_POST["model"]);
+        $sas_active = trim($_POST["sas"]);
+        $snmp_read = trim($_POST["snmpr"]);
+        $snmp_write = trim($_POST["snmpw"]);
 
         $bs_id = trim($_POST["bs_id"]);
 
@@ -109,7 +109,7 @@ if (isSet($_POST['funcName'])) {
 
             $snmp_read = CONFIG_MGR::GET(CONFIG_SNMP2_READ_COMM);
 
-            $host = new \OSS_SNMP\SNMP($bs_ip, $snmp_read);                        
+            $host = new \OSS_SNMP\SNMP($bs_ip, $snmp_read);
 
             try {
                 $bs_name = $host->useWinBs()->site_id();
@@ -124,7 +124,7 @@ if (isSet($_POST['funcName'])) {
                 }
             } catch (Exception $e) {
                 // If we get here, it timed out. Now check to see if the peer server is up.
-                $errors[] = "BS with IP address $bs_ip cannot be contacted with SNMPv2. Check BS SNMP managers configuration,";
+                $errors[] = "SNMP timed out";
             }
         }
 
@@ -145,13 +145,13 @@ if (isSet($_POST['funcName'])) {
     $ant_type = "";
     $max_power = "";
     $ant_downtilt_m = "0";
-    $ant_downtilt_e = "0"; 
-    $ant_beamw ="";     
-    $ant_model ="";     
-    $sas_active =1;
-    $snmp_read ="";
-    $snmp_write ="";
-    
+    $ant_downtilt_e = "0";
+    $ant_beamw = "";
+    $ant_model = "";
+    $sas_active = 1;
+    $snmp_read = "";
+    $snmp_write = "";
+
     $bs_id = "";
     $message = "";
 }
@@ -186,8 +186,11 @@ if (isSet($_POST['funcName'])) {
             <div class="">
 
                 <div id="success">
-                    <p><?php if (isset($message))
-    echo $message; ?></p>
+                    <p><?php
+if (isset($message)) {
+    echo $message;
+}
+?></p>
                 </div>
 
                 <div id="regbox">
@@ -201,7 +204,7 @@ if (isSet($_POST['funcName'])) {
                                 <li><a href="#tabs-4">SNMP</a></li>                                
                             </ul>                            
 
-                            <div id="tabs-1">
+                            <div id="tabs-1" class="tab-pane">
                                 <div class="form-group">
                                     <label class="control-label col-sm-2" for="bsname">BS Name:</label>
                                     <div class="col-sm-2">
@@ -211,7 +214,7 @@ if (isSet($_POST['funcName'])) {
 
                                 <div class="form-group">
                                     <label class="control-label col-sm-2" for="bsip" >IP Address:</label>
-                                    <div class="col-sm-2">                                
+                                    <div class="col-sm-2" >                                
                                         <input type="text" class="form-control" name="bsip" id="bsip" value='<?php echo $bs_ip ?>'/>                               
                                     </div>
                                 </div>
@@ -221,9 +224,9 @@ if (isSet($_POST['funcName'])) {
                                         <input type="text" class="form-control input-xlarge" name="max_tx" id="max_tx" value='<?php echo $max_power ?>'/>
                                     </div>
                                 </div>   
-                               <?php
+                                <?php
                                 $selected[0] = '';
-                                $selected[1] = '';                                
+                                $selected[1] = '';
                                 $selected[$sas_active] = 'selected';
                                 ?>
                                 <div class="form-group">
@@ -237,7 +240,7 @@ if (isSet($_POST['funcName'])) {
                                 </div>                                  
 
                             </div>
-                            <div id="tabs-2">
+                            <div id="tabs-2" class="tab-pane">
                                 <div class="form-group">
                                     <label class="control-label col-sm-2" for="alt">Location Altitude:</label>
                                     <div class="col-sm-2">
@@ -260,7 +263,7 @@ if (isSet($_POST['funcName'])) {
                                 </div>
                             </div>
 
-                            <div id="tabs-3">
+                            <div id="tabs-3" class="tab-pane">
                                 <div class="form-group">
                                     <label class="control-label col-sm-2" for="antd">Antenna Azimuth:</label>
                                     <div class="col-sm-2 controls">
@@ -315,7 +318,7 @@ if (isSet($_POST['funcName'])) {
                                 </div>                                                                  
 
                             </div>
-                            <div id="tabs-4">
+                            <div id="tabs-4" class="tab-pane">
 
                                 <div class="form-group">
                                     <label class="control-label col-sm-2" for="snmpv">SNMP version:</label>
@@ -342,13 +345,13 @@ if (isSet($_POST['funcName'])) {
                             </div>                                                     
                         </div>
 
-                        <div style="position:fixed;bottom:30px;left:10px;"> 
-                            <div class=" col-sm-offset-2 col-sm-2">
-                                <button type="submit" name="funcName" value="add" class="btn btn-primary">Apply</button>
+                        <div class="controls"> 
+                            <div class="col-sm-1">
+                                <button type="submit" name="funcName" value="add" id="addBtn" class="btn btn-primary">Apply</button>
                             </div>
 
-                            <div class="col-sm-offset-2 col-sm-2">
-                                <button type="submit" name="funcName" value="fetch" id="fetch" class="btn btn-primary">Fetch Data</button>
+                            <div class="col-sm-2 ">
+                                <button type="submit" name="funcName" value="fetch" id="fetch" class=" cancel btn btn-primary">Fetch Data</button>
                             </div>
                         </div>
 
@@ -357,15 +360,36 @@ if (isSet($_POST['funcName'])) {
             </div> 
         </div>  
         <script>
-            $.validator.addMethod('IP4Checker', function(value) {
-                var ip = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";                                                         
-                return  value.match(ip);
-            }, 'Invalid IP address');
+         
+            $(document).ready(function() { 
+                $.validator.addMethod('IP4Checker', function(value) {
+                    var ip = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";                                                         
+                    return  value.match(ip);
+                }, 'Invalid IP address');
 
+                $.validator.addMethod('GpsLat', function(value) {
+                    var val = parseFloat(value);
+                    if (!isNaN(val) && val <= 90 && val >= -90)
+                        return true;
+                    else
+                        return false;
+                }, 'Invalid latitude cooredinate');
+
+                $.validator.addMethod('GpsLong', function(value) {                                                                   
+                    return  value.match(/^(-?(?:1[0-7]|[1-9])?\d(?:\.\d{1,18})?|180(?:\.0{1,18})?)$/);
+                }, 'Invalid longtitude cooredinate');
+                
+
+
+                //Overwriting a few defaults
+                $.validator.setDefaults({
+                    ignore: ':hidden:not(.chosen-select)'                        
+                });
             
-            $(document).ready(function() {                          
+                
                 $("form[name='newBs']").validate(               
                 {
+                    ignore: "not:hidden",
                     rules: {
                         bsname: {
                             minlength: 1,
@@ -378,12 +402,14 @@ if (isSet($_POST['funcName'])) {
                         lat: {                            
                             minlength: 4,
                             maxlength: 15,
-                            required: true
+                            required: true,
+                            GpsLat: true
                         },                    
                         longit: {
                             minlength: 4,
                             maxlength: 15,
-                            required: true
+                            required: true,
+                            GpsLong: true
                         },
                         height: {
                             minlength: 1,                            
@@ -420,19 +446,24 @@ if (isSet($_POST['funcName'])) {
                         bsip: {
                             required: "Please provide the base station IP address",
                             IP4Checker: "IP address format is wrong"
-                        },                        
-                        longit: "GPS longtitude coordinate length {0} to {1} is requried",                     
+                        },                                                
                         height: "Please provide antenna height above ground level",      
                         antd: "Please provide antenna direction 0..359",
                         antg: "Please provide antenna gain in dBm"                        
                     },
-             
-        
-                    submitHandler: function(form) {
-                        form.submit();
+                    invalidHandler: function(e, validator){
+                        if(validator.errorList.length) {
+                            var tabId = jQuery(validator.errorList[0].element).closest(".tab-pane").attr('id').slice(-1);;                             
+                            //$( "#tabs" ).tabs({ active: tabId.substring(5,6) - 1 }); /*get the tab number from its ID*/
+                            $( "#tabs" ).tabs({ active: tabId - 1 }); /*get the tab number from its ID*/
+                        }
                     }
-                });
+                });                
             }); // end document.ready
+
+
+
+
         </script>             
     </body>
 </html>
